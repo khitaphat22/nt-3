@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เข้าสู่ระบบ — ระบบ NT</title>
+
+<style>
+:root{
+    --bg:#fdf9f3;
+    --card:#fffbe8;
+    --accent:#e0b200;
+    --muted:#6b7280;
+    --danger:#ef4444;
+    --radius:14px;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;}
+
+/* หน้า Login เต็มจอ */
+body{
+    background: url('image/bg-login.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* กล่อง card */
+.card{
+    width:100%;
+    max-width:420px;
+    background: rgba(255,251,232,0.95); /* ใส่ความใสเล็กน้อยให้เห็นฉากหลัง */
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(15,23,42,0.15);
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    backdrop-filter: blur(5px);
+}
+
+/* โลโก้ตรงกลาง */
+.logo{
+    width:150px; /* ขนาดกว้างของโลโก้ */
+    display:block;
+    margin:0 auto 20px;
+    border-radius:16px;   /* โค้งมนมากเป็นวงกลม */
+    overflow:hidden;  /* รูปไม่ล้นกรอบ */
+}
+
+
+h1{
+    margin:0;
+    font-size:28px;
+    text-align:center;
+    color:var(--accent);
+}
+p.lead{
+    text-align:center;
+    margin:0;
+    color:var(--muted);
+}
+
+form{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    margin-top:10px;
+}
+
+label{
+    font-size:13px;
+    color:#111827;
+}
+
+input[type="text"],input[type="password"]{
+    width:100%;
+    padding:12px 14px;
+    border-radius:10px;
+    border:1px solid #e6e9ef;
+    font-size:14px;
+    outline:none;
+    transition:box-shadow .15s, border-color .15s;
+}
+input:focus{
+    box-shadow:0 6px 18px rgba(224,178,0,0.15);
+    border-color:var(--accent);
+}
+
+.btn{
+    display:inline-block;
+    padding:12px 16px;
+    border-radius:10px;
+    font-weight:600;
+    border:none;
+    cursor:pointer;
+    background:linear-gradient(90deg,var(--accent),#f5c400);
+    color:white;
+    font-size:15px;
+    box-shadow:0 6px 18px rgba(224,178,0,0.2);
+}
+
+.error{
+    color:var(--danger);
+    font-size:13px;
+    text-align:center;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+    <img src="image\NT log.jpg" alt="โลโก NT" class="logo">
+
+    <h1>เข้าสู่ระบบ</h1>
+    <p class="lead">กรอกข้อมูลเพื่อเข้าสู่ระบบ</p>
+
+    <form id="loginForm" novalidate>
+        <div>
+            <label for="username">ชื่อผู้ใช้</label>
+            <input id="username" type="text" required />
+        </div>
+        <div>
+            <label for="password">รหัสผ่าน</label>
+            <input id="password" type="password" required />
+        </div>
+        <div class="error" id="loginError"></div>
+        <button class="btn" type="submit">เข้าสู่ระบบ</button>
+    </form>
+</div>
+
+
+
+<script>
+// ข้อมูลผู้ใช้ใหม่ที่แปลงจากรายชื่อที่คุณให้มา
+// รูปแบบ: { username: "ชื่อ-นามสกุล(ไม่มีช่องว่างและตัวพิมพ์เล็ก)", password: "ตัวเลขช่อง" }
+const users = [
+    // กลุ่มแรก: รหัส 8 หลัก
+    { username: "เอกพงษ์แสนชัย", password: "00320887" },
+    { username: "ธราธรมัชฌิมา", password: "13600552" },
+    { username: "พรอุมาวัฒนาประดิษฐชัย", password: "13814555" },
+    { username: "นิตยาพรอาษาไชย", password: "13814620" },
+    { username: "ปวริศภัทรประเสริฐ", password: "00327288" },
+    { username: "แดนเพชรแก้วมณีชัย", password: "00327330" },
+    { username: "ปิติฌาศรีชูชาติ", password: "00336583" },
+    { username: "ดรุณีโคตรแสงอ่อน", password: "00337582" },
+    { username: "ไตรรัตน์พัวโสพิศ", password: "13306748" },
+    { username: "เศกสรรค์นนทภา", password: "13408528" },
+    { username: "นพดลเดชพลมาตย์", password: "13409392" },
+    { username: "วัชระภัทรประเสริฐ", password: "13411640" },
+    { username: "นิรัชราไร่ดี", password: "13602518" },
+    { username: "อภิชาติบุญแนน", password: "13714426" },
+    { username: "ประไพแสนเป็ง", password: "13803526" },
+    { username: "กำพลอิ่มรัตนกุล", password: "13814149" },
+    { username: "วิมลมาลย์พิทักษ์เผ่าสกุล", password: "13814339" },
+    { username: "ธัญชนกสินธุรักษ์", password: "14002442" },
+    { username: "วนิดาบุญสุรีย์", password: "00912237" },
+    { username: "อรรคพลหงษ์ทอง", password: "01000210" },
+    { username: "รังศรีคำรัศมี", password: "13602900" },
+    { username: "ณพัฐอรคุณะ", password: "13700263" },
+    { username: "กฤษณะโทไข่ษร", password: "13702205" },
+    { username: "วีระชัยศรีโยธี", password: "13703904" },
+    { username: "สุรสิทธิ์ไกรทรัพย์สม", password: "13714250" },
+    { username: "ประพันธุ์ศักดิ์ภูทุมมี", password: "13800140" },
+    { username: "บรรพจน์พันธุ์รักษ์", password: "13811876" },
+    { username: "วรรณภาไพรจันทร์", password: "13813983" },
+    { username: "ภาณุมาศเดชมานนท์", password: "13814632" },
+    { username: "จุรีพรจันบุตรราช", password: "13814644" },
+    { username: "ยุทธชัยวรชิน", password: "13814985" },
+    { username: "ชัยวิสิทธิ์อุทรักษ์", password: "13814997" },
+    { username: "สุวิชาถาวร", password: "13815014" },
+    { username: "ชุมพลศิลาสิทธิ์", password: "13819567" },
+    { username: "โภค้ำคูณนิยมไกรทรัพย์สม", password: "13903706" },
+    { username: "พรภิญญาศรีวงศ์แสง", password: "13903910" },
+    { username: "ปริยันต์นาสมตรอง", password: "14000486" },
+    { username: "สุดารัตน์ฆารประเดิม", password: "14300230" },
+    { username: "รัตนาภรณ์ยมศรีเคน", password: "14401400" },
+    { username: "พงษ์ศักดิ์นนทภา", password: "13706291" },
+    { username: "ภรณ์ฑิลักษณ์อุบลเลิศจันท์คล้าย", password: "13814668" },
+    { username: "อาทิตย์ฆารเจริญ", password: "13902627" },
+    { username: "ศุภชัยชมชื่น", password: "13904518" },
+    { username: "ยุพินโลตุรัตน์", password: "14401020" },
+
+    // กลุ่มสอง: รหัส 8 หลัก (ขึ้นต้นด้วย 2, 0, 4)
+    { username: "วรพันธุ์บูรณะพล", password: "25700015" },
+    { username: "ไมตรีสินธุชัย", password: "25901946" },
+    { username: "สามารถภูพลผัน", password: "25901958" },
+    { username: "กฤษฎาภูเต้านิล", password: "07000083" },
+    { username: "ปรวีร์สุขสง่า", password: "07000113" },
+    { username: "อรณีภูแล่นดี", password: "07000462" },
+    { username: "จินดาพรภูทุมมี", password: "45300173" },
+    { username: "ธนาภรณ์อิ่มเจริญ", password: "45901014" },
+    { username: "กิตติพงษ์แก้วจุฬาศรี", password: "46200555" },
+    { username: "อรอุมาภูใบบัง", password: "46300352" },
+    { username: "จักรวัฒน์จันทคล้าย", password: "46300766" },
+    { username: "นัฐการณ์ภูนาใบ", password: "46300767" },
+    { username: "ไพบูลย์ทุมพิลา", password: "46300768" },
+    { username: "วาทีตละแก้ว", password: "46300769" },
+    { username: "ธนากรภูกาสอน", password: "46300770" },
+    { username: "บดินทร์นรราษฎร์", password: "46300771" },
+    { username: "ชุมพลทองเจือ", password: "46300772" },
+    { username: "อาทิตย์กินรี", password: "46300773" },
+    { username: "ธรงวิทย์โคตรพัฒน์", password: "46300774" },
+    { username: "กฤษณะภูใบบัง", password: "46300775" },
+    { username: "สุขสันต์คำภิรมย์", password: "46300776" },
+    { username: "อชิตพลนันทญากรกุล", password: "46300777" },
+    { username: "ณัฐดนัยนาโสก", password: "46300778" },
+    { username: "ยงยุทธบุตรพรม", password: "46300779" },
+    { username: "รัฐธิชัยแสงสุรีย์", password: "46300780" },
+    { username: "อุมาภรณ์กงตะใน", password: "46300872" },
+    { username: "เกษมสันต์อุทธยาวงศ์", password: "46301100" },
+    { username: "รัชวัชขันจำนงค์", password: "46600961" },
+
+    // กลุ่มสาม: รหัส 9-10 หลัก (รหัสที่เหลือ)
+    { username: "ทิวาพันธ์ละออ", password: "919025539" },
+    { username: "yanin", password: "1822" } // 74 
+];
+
+const loginForm = document.getElementById('loginForm');
+const loginError = document.getElementById('loginError');
+
+loginForm.addEventListener('submit', e=>{
+    e.preventDefault();
+    const username = document.getElementById('username').value.trim().toLowerCase().replace(/\s/g, ''); // ทำให้เป็นตัวพิมพ์เล็กและลบช่องว่าง
+    const password = document.getElementById('password').value;
+
+    const validUser = users.find(u => u.username === username && u.password === password);
+
+    if(validUser){
+        // ล็อกอินสำเร็จ → ไป Dashboard
+        window.location.href = 'index.html'; // เปลี่ยนเป็นไฟล์ Dashboard ของคุณ
+    } else {
+        loginError.textContent = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
+    }
+});
+</script>
+
+</body>
+</html>

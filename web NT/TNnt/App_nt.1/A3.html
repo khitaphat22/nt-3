@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>แผนกโครงข่าย – บุคลากร (ผังองค์กร)</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    body {
+        margin: 0;
+        font-family: 'Inter', Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+        background: #fff8d6;
+    }
+
+    /* --- Sidebar Styling --- */
+    .sidebar {
+        width: 270px;
+        background: #f5c400;
+        color: #000;
+        padding: 20px 0;
+        overflow-y: auto;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+        z-index: 10;
+        flex-shrink: 0;
+    }
+
+    .logo-box {
+        text-align: center;
+        padding: 15px 0 10px;
+    }
+
+    .logo-box img {
+        width: 120px;
+        height: auto;
+    }
+
+    .menu-title {
+        padding: 12px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        background: #e0b200;
+        margin-bottom: 5px;
+        color: #000;
+    }
+
+    .menu-item, .submenu-item {
+        padding: 10px 22px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.2s;
+    }
+
+    .menu-item.active, .submenu-item.active {
+        background: #ffdd4d;
+        font-weight: 600;
+    }
+    
+    .menu-item:hover, .submenu-item:hover {
+        background: #ffdd4d;
+    }
+
+    .submenu {
+        padding-left: 35px;
+        font-size: 14px;
+        display: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* --- Content Area Styling --- */
+    .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+        padding: 50px 20px 50px 20px;
+        overflow-y: auto;
+    }
+
+    /* --- ORGANIZATION CHART (ใหม่ ตามที่ให้มา) --- */
+
+.org-chart {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.level {
+    display: flex;
+    justify-content: space-around; /* ขยายความห่างระหว่างบุคลากรในชั้นเดียวกัน */
+    align-items: flex-start;
+    margin-top: 40px;
+    position: relative;
+    flex-wrap: wrap; /* ถ้ามีจำนวนเยอะเกินไป จะขึ้นบรรทัดใหม่ */
+
+}
+/* --- ปรับเฉพาะชั้น 2 --- */
+    .level-2 {
+        display: flex;
+        justify-content: center;   /* จัดกลาง */
+        align-items: flex-start;
+        gap: 50px;                 /* ระยะห่างระหว่างบุคลากรในชั้นนี้ */
+        margin-top: 100px;          /* ระยะห่างจากชั้นบน */
+    }
+
+    /* --- ปรับเฉพาะชั้น  --- */
+    .level-7 {
+        display: flex;
+        justify-content: center;   /* จัดกลาง */
+        align-items: flex-start;
+        gap: 30px;                 /* ระยะห่างระหว่างบุคลากรในชั้นนี้ */
+        margin-top: 50px;          /* ระยะห่างจากชั้นบน */
+    }
+
+.person {
+    width: 200px;  /* ความกว้างของแต่ละกล่อง */
+    margin: 0 40px; /* เว้นซ้ายขวา เพิ่มช่องว่างระหว่างบุคลากร */
+    text-align: center;
+    position: relative; /* <-- เพิ่มเพื่อวางปุ่มแก้ไข */
+}
+
+/* ปุ่มแก้ไขรูปบนการ์ด */
+.person .edit-btn{
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .12s ease, transform .12s ease;
+    z-index: 6;
+    border: 0;
+}
+.person:hover .edit-btn{ opacity: 1; transform: translateY(-2px); }
+.person .edit-btn svg{ width:14px; height:14px; display:block; }
+
+/* ให้ชื่อ/ตำแหน่งอยู่เหนือเส้นเสมอ */
+.name, .pos { position: relative; z-index: 8; }
+
+.person img {
+    /* กำหนดกรอบขนาดเท่ากันสำหรับทุกรูป */
+    width: 200px;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+    border: 4px solid #d9b36c;
+    border-radius: 8px;
+    box-sizing: border-box; /* ให้ขอบรวมอยู่ในขนาดกรอบ */
+}
+
+/* ปรับขนาดให้เหมาะกับหน้าจอเล็ก */
+@media (max-width: 720px) {
+  .person img {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+.person .name {
+    width: 200px;           /* ให้กว้างเท่ากับกล่อง */
+    height: 40px;           /* ความสูงคงที่ทุกกล่อง */
+    display: flex;
+    align-items: center;    /* จัดกลางแนวตั้ง */
+    justify-content: center;/* จัดกลางแนวนอน */
+    text-align: center;
+    overflow: hidden;       /* ตัดส่วนเกิน */
+    padding: 0 4px;
+    font-size: 15px;
+    font-weight: 1000;
+}
+
+
+.person-role {
+    font-size: 13px;
+    color: #8c4a00;
+}
+
+/* กล่องรวม */
+.branch {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: 20px;
+}
+
+</style>
+</style>
+<style>
+@media (max-width:1024px){.sidebar{width:220px}.content{padding:30px 16px}}
+@media (max-width:768px){body{flex-direction:column;height:auto}.sidebar{width:100%;padding:10px}.card{width:calc(50% - 16px)}.card img{width:100%}}
+@media (max-width:420px){.card{width:100%}h1{font-size:28px}}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo-box">
+        <img src="image/logo.png" alt="Logo ศูนย์วิศวกรรมโครงข่าย">
+    </div>
+    <div class="menu-title">ศูนย์วิศวกรรมโครงข่าย</div>
+    <div id="menuContainer"></div>
+</div>
+
+<div class="content">
+
+    <h1 style="color:#8c7300; border-bottom:3px solid #f5c400; padding-bottom:10px; font-size:40px;">
+    ทำเนียบบุคลากร <br> ศูนย์วิศวกรรมโครงข่าย
+</h1>
+
+
+    <div class="org-container">
+
+    <!-- ระดับ 1 -->
+    <div class="level level-1">
+        <div class="person">
+            <img src="image\Gemini_Generated_Image_ch0u4cch0u4cch0u.png">
+            <div class="name">นายกำพล อิ่มรัตนกุล</div>
+            <div class="pos">ผจ.วบตป.1(กส.)</div>
+        </div>
+    </div>
+
+    <!-- เส้นลง -->
+    <div class="line vertical v1"></div>
+
+    <!-- ระดับ 2 -->
+    <div class="level level-2">
+        <div class="person">
+            <img src="image\LINE_ALBUM_191168 _1_251120_1.jpg">
+            <div class="name">นายบรรพจน์ พันธุ์รักษ์</div>
+            <div class="pos">แผนงานงบประมาณ</div>
+        </div>
+        <div class="person">
+            <img src="image\LINE_ALBUM_191168 _1_251120_2.jpg">
+            <div class="name">นางสาวยุพิน โลตุรัตน์</div>
+            <div class="pos">งานธุรการ และงานสินทรัพย์</div>
+        </div>
+    </div>
+
+    <div class="line horizontal h2"></div>
+    <div class="line vertical v2"></div>
+
+    <!-- ระดับ 3 -->
+    <div class="level level-3">
+        <div class="person">
+            <img src="image\Gemini_Generated_Image_e7rkqoe7rkqoe7rk.png">
+            <div class="name">นายชุมพล ศิลาสิทธิ์ </div>
+            <div class="pos">งานบำรุงรักษาข่ายสาย</div>
+        </div>
+
+        <div class="person">
+            <img src="image\h.jpg">
+            <div class="name">นายอาทิตย์ ฆารเจริญ</div>
+            <div class="pos">งานบำรุงรักษาข่ายสาย</div>
+        </div>
+
+    </div>
+    
+
+    <div class="line vertical v3"></div>
+
+    <!-- ระดับ 4 -->
+    <div class="level level-4">
+        <div class="person">
+            <img src="image\Gemini_Generated_Image_7ubgx67ubgx67ubg.png">
+            <div class="name">นางสาวอรอุมา ภูใบบัง OS </div>
+            <div class="pos">เจ้าหน้าที่รับแจ้งเหตุเสีย</div>
+        </div>
+
+        <div class="person">
+            <img src="image\unnamed.jpg">
+            <div class="name">นางสาวธนาภรณ์ อิ่มเจริญ OS</div>
+            <div class="pos">เจ้าหน้าที่รับแจ้งเหตุเสีย</div>
+        </div>
+    </div>
+
+    <div class="line horizontal h4"></div>
+    <div class="line vertical v4"></div>
+
+    <!-- ระดับ 5 -->
+    <div class="level level-5">
+        <div class="person">
+            <img src="image\unnamed (7).jpg">
+            <div class="name">หัวหน้างานปรับปรุง-ซ่อมแซมข่ายสายเคเบิล โครงข่าย</div>
+            <div class="pos">ผู้ควบคุมงาน</div>
+            <div class="pos">นายวรพันธ์ บูรณะพล</div>
+        </div>
+    </div>
+
+    <div class="line vertical v5"></div>
+
+    <!-- ระดับ 6 -->
+    <div class="level level-6">
+        <div class="person">
+            <img src="image\unnamed (7).jpg">
+            <div class="name">นายวรพันธ์ บูรณะพล</div>
+            <div class="pos">กองงานที่ 1 </div>
+        </div>
+
+        <div class="person">
+            <img src="image\unnamed (1).jpg">
+            <div class="name">นายอชิตพล นันทญากรกุล</div>
+            <div class="pos">กองงานที่ 1 </div>
+        </div>
+        <div class="person">
+            <img src="image\New Project (5).jpg">
+            <div class="name">นายสามารถ  ภูพลผัน</div>
+            <div class="pos">กองงานที่ 2 </div>
+        </div>
+
+        <div class="person">
+            <img src="image\unnamed (2).jpg">
+            <div class="name">นายนัฐการณ์ ภูนาใบ</div>
+            <div class="pos">กองงานที่ 2 </div>
+        </div>
+    </div>
+
+    <div class="line horizontal h6"></div>
+    <div class="line vertical v6"></div>
+
+    <!-- ระดับ 7 -->
+    <div class="level level-7">
+        <div class="person">
+            <img src="image\19348.jpg">
+            <div class="name">นายอรรคพล หงษ์ทอง</div>
+            <div class="pos">กองงานที่ 3</div>
+        </div>
+
+        <div class="person">
+            <img src="image\unmed11.jpg">
+            <div class="name">นายวรวิทย์ กาลวิไล</div>
+            <div class="pos">กองงานที่ 3</div>
+        </div>
+
+        <div class="person">
+            <img src="image\unnamed (3).jpg">
+            <div class="name">นายวีระ ฆารดา</div>
+            <div class="pos">กองงานที่ 4</div>
+        </div>
+        <div class="person">
+            <img src="image\unnamed (4).jpg">
+            <div class="name">นายทิวา พันธุ์ละออ </div>
+            <div class="pos">กองงานที่ 4</div>
+        </div>
+    </div>
+
+</div>
+
+<!-- hidden file input used to replace images -->
+<input id="imgUploaderIndex" type="file" accept="image/*" style="display:none" />
+
+<script>
+const menuData = {
+  "sidebarMenu": [
+    { "title": "หน้าแรก", "path": "\index.html" },
+    {
+      "title": "โครงสร้างแผนก",
+      "children": [
+        { "title": "อัตรากำลัง", "path": "A1.html" },
+        { "title": "หน้าที่บุคลากร", "path": "A2.html" },
+        { "title": "ทำเนียบบุคลากร", "path": "A3.html" }
+      ]
+    },
+    {
+      "title": "งานที่รับผิดชอบ",
+      "children": [
+        { "title": "โครงข่าย", "path": "B1.html" },
+        { "title": "ใบสั่งงาน", "path": "B2.html" },
+        { "title": "ตารางบำรุงรักษา", "path": "B3.html" },
+        { "title": "Outside plan map (OPM) ", "path": "B4.html" },
+        { "title": "ความปลอดภัย อาชีวอนามัย", "path": "\B5.html" }
+      ]
+    },
+
+     {
+      "title": "แจ้งเหตุเสีย/1888",
+      "children": [
+        { "title": "Scoms", "path": "/ticket/new" },
+        { "title": "Umbo", "path": "/ticket/status" }
+      ]
+    },
+    
+    { "title": "ติดต่อ", "path": "E1.html" }
+]
+};
+
+const container = document.getElementById("menuContainer");
+const currentPath = window.location.pathname.replace(/\/$/, "");
+
+menuData.sidebarMenu.forEach(menu => {
+    const item = document.createElement("div");
+    item.className = "menu-item";
+
+    if (menu.path && currentPath.endsWith(menu.path.replace(/\./g, ''))) {
+        item.classList.add('active');
+    }
+
+    if (!menu.children) {
+        item.innerHTML = `<a href="${menu.path}">${menu.title}</a>`;
+        container.appendChild(item);
+        return;
+    }
+
+    item.textContent = menu.title;
+
+    const submenu = document.createElement("div");
+    submenu.className = "submenu";
+    let hasActiveSubmenu = false;
+
+    menu.children.forEach(sub => {
+        const subItem = document.createElement("div");
+        subItem.className = "submenu-item";
+
+        if (currentPath.endsWith(sub.path)) {
+            subItem.classList.add('active');
+            hasActiveSubmenu = true;
+        }
+
+        subItem.innerHTML = `<a href="${sub.path}">• ${sub.title}</a>`;
+        submenu.appendChild(subItem);
+    });
+
+    if (hasActiveSubmenu) {
+        submenu.style.display = "block";
+        item.classList.add('active');
+    }
+
+    item.onclick = () => {
+        submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+    };
+
+    container.appendChild(item);
+    container.appendChild(submenu);
+});
+</script>
+
+<!-- เพิ่มสคริปต์แก้ไขรูปและเก็บลง localStorage -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const STORAGE_KEY = 'orgImages_index_v1';
+  const uploader = document.getElementById('imgUploaderIndex');
+  let currentImg = null;
+
+  function readStore(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function writeStore(obj){ try { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); } catch(e){ console.warn('save failed', e); } }
+  function saveImageForCard(cardId, dataUrl){
+    const map = readStore(); map[cardId] = dataUrl; writeStore(map);
+  }
+  function removeSavedImage(cardId){
+    const map = readStore(); if(map[cardId]){ delete map[cardId]; writeStore(map); }
+  }
+
+  function ensurePersonIdsAndRestore(){
+    const map = readStore();
+    document.querySelectorAll('.person').forEach((person, idx) => {
+      if(!person.dataset.cardId) person.dataset.cardId = 'person-' + idx;
+      const id = person.dataset.cardId;
+      const img = person.querySelector('img');
+      if (!img) return;
+      if (!img.dataset.orig) img.dataset.orig = img.src || '';
+      if (map[id]) img.src = map[id];
+    });
+  }
+
+  function createEditButton(person) {
+    if (person.querySelector('.edit-btn')) return;
+    if(!person.dataset.cardId) person.dataset.cardId = 'person-' + Math.floor(Math.random()*1e9);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'edit-btn';
+    btn.title = 'แก้ไขรูป';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 21v-3.75L14.06 6.19l3.75 3.75L6.75 21H3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    btn.addEventListener('click', () => {
+      const img = person.querySelector('img');
+      if (!img) return;
+      currentImg = img;
+      if (!img.dataset.orig) img.dataset.orig = img.src || '';
+      uploader.value = null;
+      uploader.click();
+    }, { passive: true });
+    person.appendChild(btn);
+  }
+
+  // initialize and attach handlers
+  ensurePersonIdsAndRestore();
+
+  document.querySelectorAll('.person').forEach(person => {
+    const img = person.querySelector('img');
+    if (img) createEditButton(person);
+
+    if (img) {
+      // right-click to reset original (and remove saved)
+      img.addEventListener('contextmenu', e => {
+        e.preventDefault();
+        if (!img.dataset.orig) return alert('ไม่มีรูปต้นฉบับบันทึกไว้');
+        if (confirm('คืนค่าเป็นรูปเดิม (ลบรูปที่บันทึกไว้)?')) {
+          img.src = img.dataset.orig;
+          const id = person.dataset.cardId;
+          if (id) removeSavedImage(id);
+        }
+      });
+
+      // drag & drop replace (persist)
+      img.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; });
+      img.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const f = e.dataTransfer.files && e.dataTransfer.files[0];
+        if (!f || !f.type.startsWith('image/')) return alert('ลากรูปภาพมาทับเฉพาะไฟล์ภาพ');
+        if (!img.dataset.orig) img.dataset.orig = img.src || '';
+        const r = new FileReader();
+        r.onload = () => {
+          img.src = r.result;
+          if(!person.dataset.cardId) person.dataset.cardId = 'person-' + Math.floor(Math.random()*1e9);
+          saveImageForCard(person.dataset.cardId, r.result);
+        };
+        r.readAsDataURL(f);
+      });
+    }
+  });
+
+  uploader.addEventListener('change', (ev) => {
+    const file = ev.target.files && ev.target.files[0];
+    if (!file || !currentImg) return;
+    if (!file.type.startsWith('image/')) {
+      alert('ไฟล์ต้องเป็นรูปภาพเท่านั้น');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      currentImg.src = reader.result;
+      const person = currentImg.closest('.person');
+      if(person){
+        if(!person.dataset.cardId) person.dataset.cardId = 'person-' + Math.floor(Math.random()*1e9);
+        saveImageForCard(person.dataset.cardId, reader.result);
+      }
+      currentImg = null;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // watch for DOM changes and ensure buttons/restoration run on new elements
+  const observer = new MutationObserver(() => {
+    ensurePersonIdsAndRestore();
+    document.querySelectorAll('.person').forEach(person => {
+      if(person.querySelector('img')) createEditButton(person);
+    });
+  });
+  const container = document.querySelector('.org-container') || document.body;
+  observer.observe(container, { childList: true, subtree: true });
+});
+
+
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ---- ระบบแก้ไขชื่อ–ตำแหน่ง ---- */
+
+  const TEXT_KEY = "orgText_index_v1";
+
+  function loadTextStore() {
+    try { return JSON.parse(localStorage.getItem(TEXT_KEY) || "{}"); }
+    catch(e){ return {}; }
+  }
+
+  function saveTextStore(obj) {
+    try { localStorage.setItem(TEXT_KEY, JSON.stringify(obj)); }
+    catch(e){ console.warn("save text failed", e); }
+  }
+
+  const textStore = loadTextStore();
+
+  document.querySelectorAll(".person").forEach((person, index) => {
+    if(!person.dataset.cardId) person.dataset.cardId = "person-" + index;
+    const id = person.dataset.cardId;
+
+    const nameEl = person.querySelector(".name");
+    const posEl  = person.querySelector(".pos");
+
+    if(!nameEl || !posEl) return;
+
+    // เก็บค่าต้นฉบับ
+    if(!nameEl.dataset.orig) nameEl.dataset.orig = nameEl.textContent.trim();
+    if(!posEl.dataset.orig)  posEl.dataset.orig  = posEl.textContent.trim();
+
+    // คืนค่าที่เคยบันทึกไว้
+    if(textStore[id]) {
+      nameEl.textContent = textStore[id].name || nameEl.dataset.orig;
+      posEl.textContent  = textStore[id].pos  || posEl.dataset.orig;
+    }
+
+    /* ---- ปุ่มแก้ไขชื่อ/ตำแหน่ง ---- */
+    const wrap = document.createElement("div");
+    wrap.style.position = "absolute";
+    wrap.style.bottom = "5px";
+    wrap.style.right = "-15px";   // ออกไปทางขวาอีก = "5px";
+    wrap.style.zIndex = "10";
+
+    const btn = document.createElement("div");
+    btn.className = "edit-text-btn";
+    btn.style.background = "rgba(0,0,0,0.6)";
+    btn.style.color = "#fff";
+    btn.style.width = "28px";
+    btn.style.height = "28px";
+    btn.style.display = "flex";
+    btn.style.borderRadius = "6px";
+    btn.style.cursor = "pointer";
+    btn.style.alignItems = "center";
+    btn.style.justifyContent = "center";
+    btn.title = "แก้ไขชื่อ / ตำแหน่ง";
+
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" width="14" height="14">
+        <path d="M3 21v-3.75L14.06 6.19l3.75 3.75L6.75 21H3z"
+              stroke="currentColor"
+              stroke-width="1.5"/>
+      </svg>
+    `;
+
+    wrap.appendChild(btn);
+    person.appendChild(wrap);
+
+    btn.onclick = () => {
+      const newName = prompt("แก้ไขชื่อ", nameEl.textContent.trim());
+      if(newName === null) return;
+
+      const newPos = prompt("แก้ไขตำแหน่ง", posEl.textContent.trim());
+      if(newPos === null) return;
+
+      nameEl.textContent = newName.trim() || nameEl.dataset.orig;
+      posEl.textContent  = newPos.trim()  || posEl.dataset.orig;
+
+      textStore[id] = {
+        name: nameEl.textContent,
+        pos:  posEl.textContent
+      };
+
+      saveTextStore(textStore);
+    };
+  });
+
+});
+</script>
+
+</body>
+</html>

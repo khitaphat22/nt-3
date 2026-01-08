@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>แผนกโครงข่าย – หน้าที่ความรับผิดชอบ</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+        background: #fff8d6 url('image/map-thailand-gold-glitter-map-dark-background_559531-10614.avif') no-repeat center center fixed;
+        background-size: cover;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 270px;
+        background: #f5c400;
+        color: #000;
+        padding: 20px 0;
+        overflow-y: auto;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+        z-index: 10;
+    }
+
+    .logo-box {
+        text-align: center;
+        padding: 15px 0 10px;
+    }
+
+    .logo-box img {
+        width: 120px;
+        height: auto;
+    }
+
+    .menu-title {
+        padding: 12px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        background: #e0b200;
+        margin-bottom: 5px;
+        color: #000;
+    }
+
+    .menu-item, .submenu-item {
+        padding: 10px 22px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.2s;
+    }
+
+    .menu-item.active, .submenu-item.active {
+        background: #ffdd4d;
+        font-weight: 600;
+    }
+
+    .menu-item:hover, .submenu-item:hover {
+        background: #ffdd4d;
+    }
+
+    .submenu {
+        padding-left: 35px;
+        font-size: 14px;
+        display: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* Content Area Styling */
+    .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        text-align: left;
+        padding: 50px 20px 50px 20px;
+        overflow-y: auto;
+    }
+
+    .content-container {
+        width: 100%;
+        max-width: 900px;
+        text-align: left;
+    }
+
+    .content h1 {
+        font-size: 36px;
+        font-weight: 600;
+        margin-bottom: 35px;
+        text-align: center;
+    }
+
+    .content-container h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-top: 35px;
+        margin-bottom: 15px;
+        color: #8c7300;
+        border-bottom: 2px solid #ffdd4d;
+        padding-bottom: 5px;
+        text-align: left;
+    }
+
+    .content-container p {
+        font-size: 18px;
+        margin-bottom: 20px;
+        line-height: 1.6;
+        text-align: left;
+    }
+
+    .content-container ul {
+        margin: 0 0 25px 0;
+        padding-left: 0;
+        line-height: 1.8;
+        list-style: none;
+        font-size: 17px;
+    }
+
+    .content-container ul li {
+        padding-left: 15px;
+        position: relative;
+    }
+
+    .content-container ul li strong {
+        color: #000;
+    }
+
+    .content-container img {
+        display: block;
+        max-width: 400px;
+        width: 80%;
+        height: auto;
+        margin: 30px auto 10px auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .link-btn {
+        display: inline-block;
+        background: #b1c6b5;
+        color: #000;
+        padding: 12px 24px;
+        font-size: 18px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        border: 2px solid #e0b200;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+    }
+
+    .link-btn:hover { 
+        background: #ffd84d;
+    }
+
+    .section-card p {
+        color: #f5c400;
+        font-weight: 1000;
+        margin: 0 0 8px 0;
+    }
+
+    .section-card {
+        margin-bottom: 24px;
+        text-align: left;
+    }
+
+    .section-card a.link-btn,
+    .content-container p > .link-btn {
+        display: inline-block;
+        margin: 8px 0 0 0;
+        text-align: left;
+    }
+    
+
+.map-header{
+    display: flex;
+    gap: 80px;
+    align-items: flex-end;
+}
+
+
+/* กลุ่มปุ่มบน */
+.map-header{
+    display: flex;
+    gap: 32px;              /* ระยะห่างระหว่างปุ่ม */
+    margin-bottom: 20px;
+}
+
+/* การ์ดปุ่ม */
+.map-card{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 220px;       /* ให้ปุ่มกว้างเท่ากัน */
+}
+
+/* หัวปุ่ม */
+.map-title{
+    font-size: 14px;
+    font-weight: 700;
+    color: #f5c400;
+}
+
+/* ปุ่มหลัก */
+.map-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 46px;           /* 👈 ความสูงเท่ากัน */
+    padding: 0 18px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    background: #b1c6b5;
+    color: #000;
+    border: 2px solid #e0b200;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.map-btn:hover{
+    background: #ffd84d;
+}
+
+/* ปุ่ม Google Earth แยกสีเล็กน้อย */
+.map-btn.earth{
+    background: #cfe9ff;
+    border-color: #5aa9ff;
+}
+
+.map-btn.earth:hover{
+    background: #9fd0ff;
+}
+
+
+/* ปุ่มย่อย KML – ขนาดเท่ากัน */
+
+#subButtons{
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 220px);
+    gap: 16px;
+}
+
+/* ไม่ให้ section-card ดันขนาด */
+#subButtons .section-card{
+    margin: 0;
+}
+
+/* ปุ่มย่อย ใช้สีเดิมทั้งหมด */
+#subButtons .link-btn{
+    width: 220px;      /* กว้างเท่ากัน */
+    height: 46px;      /* สูงเท่ากัน */
+    padding: 0;        /* ตัด padding เดิม */
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+    white-space: nowrap;
+}
+
+
+/* กล่อง Google Maps */
+.map-embed{
+    margin-top: 40px;
+    width: 100%;
+    max-width: 1400px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+    border: 2px solid #e0b200;
+}
+
+.map-embed iframe{
+    width: 100%;
+    height: 420px;
+    border: 0;
+}
+
+
+
+    
+</style>
+</style>
+<style>
+@media (max-width:1024px){.sidebar{width:220px}.content{padding:30px 16px}}
+@media (max-width:768px){body{flex-direction:column}.sidebar{width:100%;padding:10px}.card{width:calc(50% - 16px)}.card img{width:100%}}
+@media (max-width:420px){.card{width:100%}}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <div class="logo-box">
+        <img src="image/logo.png" alt="Logo ศูนย์วิศวกรรมโครงข่าย">
+    </div>
+
+    <div class="menu-title">ศูนย์วิศวกรรมโครงข่าย</div>
+    <div id="menuContainer"></div>
+</div>
+
+<div class="content">
+
+ <!-- กลุ่มปุ่ม KML + Google Earth -->
+<div class="map-header">
+
+    <div class="map-card">
+        <div class="map-title">Click To Maps</div>
+        <button class="map-btn" id="toggleBtn">KML ▼</button>
+    </div>
+
+    <div class="map-card">
+        <div class="map-title">Google Earth</div>
+        <a class="map-btn earth"
+           href="https://earth.google.com/web/"
+           target="_blank"
+           rel="noopener noreferrer">
+           🌍 Google Earth
+        </a>
+    </div>
+
+</div>
+
+
+<!-- Google Maps แสดงผล จังหวัดกาฬสินธุ์ -->
+<div class="map-embed">
+    <iframe 
+        src="https://www.google.com/maps?q=16.4314,103.5069&z=9&output=embed"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+</div>
+
+
+
+
+
+    <!-- ปุ่มย่อยทั้งหมด -->
+    <div id="subButtons" style="display:none;">
+
+        <div class="section-card">
+            <a class="link-btn" href="https://www.google.com/maps/@16.97,103.86,9z" target="_blank" rel="noopener noreferrer">Spurroute</a>
+        </div>
+
+        <div class="section-card">
+            <a class="link-btn" href="https://www.google.com/maps/@16.97,103.86,9z" target="_blank" rel="noopener noreferrer">10 KL</a>
+        </div>
+
+        <div class="section-card">
+            <a class="link-btn" href="https://www.google.com/maps/@16.97,103.86,9z" target="_blank" rel="noopener noreferrer">Feedder</a>
+        </div>
+
+        <!-- ---------------- CM-PM ---------------- -->
+        <div class="section-card">
+            <a class="link-btn"
+         href="https://docs.google.com/spreadsheets/d/1U19td376a5SJROCL55XPKSr8eLhY3zAo/edit?gid=545330346#gid=545330346"target="_blank"rel="noopener noreferrer"> CM-PM </a>
+        </div>
+
+
+        <div class="section-card">
+            <a class="link-btn" href="https://www.google.com/maps/@16.97,103.86,9z" target="_blank" rel="noopener noreferrer">USO</a>
+        </div>
+
+        <div class="section-card">
+            <a class="link-btn" href="https://www.google.com/maps/@16.97,103.86,9z" target="_blank" rel="noopener noreferrer">MDES</a>
+        </div>
+
+        
+        <!-- ---------------- T-NEP ---------------- -->
+        <div class="section-card">
+            <a class="link-btn"
+         href="https://drive.google.com/drive/folders/1d9RlvBbvAZod2MviLgYNxxYKhR9rh2Wx"target="_blank"rel="noopener noreferrer">T-NEP</a>
+        </div>
+
+
+        <div class="section-card">
+            <a class="link-btn" href="https://www.google.com/maps/@16.97,103.86,9z" target="_blank" rel="noopener noreferrer">ASON</a>
+        </div>
+
+        <div class="section-card">
+            <a class="link-btn" href="https://www.google.com/maps/@16.97,103.86,9z" target="_blank" rel="noopener noreferrer">565 KL</a>
+        </div>
+
+        <div class="section-card">
+            <a class="link-btn" href="https://www.google.com/maps/@16.97,103.86,9z" target="_blank" rel="noopener noreferrer">CAT-TAG</a>
+        </div>
+    </div>
+</div>
+
+<script>
+const menuData = {
+  "sidebarMenu": [
+    { "title": "หน้าแรก", "path": "\index.html" },
+    {
+      "title": "โครงสร้างแผนก",
+      "children": [
+        { "title": "อัตรากำลัง", "path": "A1.html" },
+        { "title": "หน้าที่บุคลากร", "path": "A2.html" },
+        { "title": "ทำเนียบบุคลากร", "path": "A3.html" }
+      ]
+    },
+    {
+      "title": "งานที่รับผิดชอบ",
+      "children": [
+        { "title": "โครงข่าย", "path": "B1.html" },
+        { "title": "ใบสั่งงาน", "path": "B2.html" },
+        { "title": "ตารางบำรุงรักษา", "path": "B3.html" },
+        { "title": "Outside plan map (OPM) ", "path": "B4.html" },
+        { "title": "ความปลอดภัย อาชีวอนามัย", "path": "B5.html" }
+      ]
+    },
+    {
+      "title": "แจ้งเหตุเสีย/1888",
+      "children": [
+        { "title": "Scoms", "path": "/ticket/new" },
+        { "title": "Umbo", "path": "/ticket/status" }
+      ]
+    },
+ 
+    { "title": "ติดต่อ", "path": "E1.html" }
+  ]
+};
+
+const container = document.getElementById("menuContainer");
+const currentPath = window.location.pathname.replace(/\/$/, "");
+
+// สร้างเมนู sidebar
+menuData.sidebarMenu.forEach((menu, index) => {
+    const item = document.createElement("div");
+    item.className = "menu-item";
+
+    if (!menu.children) {
+        item.innerHTML = `<a href="${menu.path}">${menu.title}</a>`;
+        container.appendChild(item);
+        return;
+    }
+
+    item.textContent = menu.title;
+
+    const submenu = document.createElement("div");
+    submenu.className = "submenu";
+
+    menu.children.forEach(sub => {
+        const subItem = document.createElement("div");
+        subItem.className = "submenu-item";
+        subItem.innerHTML = `<a href="${sub.path}">• ${sub.title}</a>`;
+        submenu.appendChild(subItem);
+    });
+
+    item.onclick = () => {
+        submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+    };
+
+    container.appendChild(item);
+    container.appendChild(submenu);
+
+    // ===== เปิด Submenu อัตโนมัติเมื่ออยู่ในเมนูย่อย =====
+    const isActiveGroup = menu.children.some(sub => currentPath.endsWith(sub.path));
+    if (isActiveGroup) {
+        submenu.style.display = "block";          // เปิด submenu
+        item.classList.add("active");             // ไฮไลต์เมนูหลัก
+
+        const subItems = submenu.querySelectorAll(".submenu-item");
+        subItems.forEach(s => {
+            if (currentPath.endsWith(s.querySelector("a").getAttribute("href"))) {
+                s.classList.add("active");       // ไฮไลต์เมนูย่อย
+            }
+        });
+    }
+});
+
+// KML toggle ปุ่มค้นหาและซ่อน/แสดงปุ่มย่อย
+document.getElementById("toggleBtn").onclick = function () {
+    const box = document.getElementById("subButtons");
+    box.style.display = box.style.display === "none" ? "block" : "none";
+    this.textContent = box.style.display === "none" ? "KML ▼" : "KML ▲";
+};
+
+
+
+
+
+
+</script>
+</body>
+</html>

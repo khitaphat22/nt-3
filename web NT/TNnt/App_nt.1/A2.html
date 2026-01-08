@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>แผนกโครงข่าย – หน้าที่ความรับผิดชอบ</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+        margin: 0;
+        font-family: 'Inter', Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+        background: #fff8d6;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 270px;
+        background: #f5c400;
+        color: #000;
+        padding: 20px 0;
+        overflow-y: auto;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+        z-index: 10;
+    }
+
+    .logo-box {
+        text-align: center;
+        padding: 15px 0 10px;
+    }
+
+    .logo-box img {
+        width: 120px;
+        height: auto;
+    }
+
+    .menu-title {
+        padding: 12px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        background: #e0b200;
+        margin-bottom: 5px;
+        color: #000;
+    }
+
+    .menu-item, .submenu-item {
+        padding: 10px 22px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.2s;
+    }
+
+    .menu-item.active, .submenu-item.active {
+        background: #ffdd4d;
+        font-weight: 600;
+    }
+    
+    .menu-item:hover, .submenu-item:hover {
+        background: #ffdd4d;
+    }
+
+    .submenu {
+        padding-left: 35px;
+        font-size: 14px;
+        display: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* --- Content Area Styling --- */
+    .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+        padding: 50px 20px 50px 20px;
+        overflow-y: auto;
+    }
+
+    /* Container ภายในสำหรับเนื้อหาหลัก เพื่อจำกัดความกว้างและจัดชิดซ้าย */
+    .content-container {
+        width: 100%;
+        max-width: 900px;
+        text-align: left;
+    }
+
+    .content h1 {
+        font-size: 36px;
+        font-weight: 600;
+        margin-bottom: 35px;
+        text-align: center;
+    }
+
+    /* **การแก้ไขหลัก: ทำให้ H2 ชิดซ้ายใน Content Container** */
+    .content-container h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-top: 35px;
+        margin-bottom: 15px;
+        color: #8c7300;
+        border-bottom: 2px solid #ffdd4d;
+        padding-bottom: 5px;
+        text-align: left;
+    }
+
+    .content-container p {
+        font-size: 18px;
+        margin-bottom: 20px;
+        line-height: 1.6;
+        text-align: left;
+    }
+
+    /* *** แก้ไขตรงนี้: ลบเครื่องหมายสี่เหลี่ยม (list-style: square) ออก *** */
+    .content-container ul {
+        margin: 0 0 25px 0;
+        padding-left: 0; /* ลบ padding-left เพื่อให้รายการเริ่มต้นจากซ้ายสุด */
+        line-height: 1.8;
+        list-style: none; /* ลบเครื่องหมายหัวข้อย่อย */
+        font-size: 17px;
+    }
+
+    /* เพิ่มการจัดรูปแบบของ list item เพื่อให้มีช่องว่างด้านซ้ายเล็กน้อย (ถ้าจำเป็น) */
+    .content-container ul li {
+        padding-left: 15px; /* เพิ่ม padding เล็กน้อยเพื่อให้ไม่ชิดซ้ายเกินไป */
+        position: relative; /* เพื่อให้สามารถเพิ่มสัญลักษณ์นำหน้าด้วย CSS ได้ในอนาคต */
+    }
+
+    .content-container ul li strong {
+        color: #000;
+    }
+
+    .content-container img {
+        display: block;
+        max-width: 400px;
+        width: 80%;
+        height: auto;
+        margin: 30px auto 10px auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+</style>
+<style>
+/* Responsive rules for tablet and phone */
+@media (max-width: 768px) { body{flex-direction:column;height:auto;} .sidebar{width:100%;padding:10px 8px;box-shadow:none;} .logo-box img{width:90px;} .card{width:calc(50% - 16px);} .card img{width:100%;height:auto;} }
+@media (max-width:420px){ .card{width:100%;} h1{font-size:28px;} }
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo-box">
+        <img src="image/logo.png" alt="Logo ศูนย์วิศวกรรมโครงข่าย">
+    </div>
+
+    <div class="menu-title">ศูนย์วิศวกรรมโครงข่าย</div>
+    <div id="menuContainer"></div>
+</div>
+
+<div class="content">
+    
+    <div class="content-container">
+
+            <h1>มอบหมายหน้าที่ประจำ – ศูนย์วิศวกรรมโครงข่าย</h1>
+
+            <!-- *** วางเนื้อหาใหม่ของคุณทั้งหมดตรงนี้ *** -->
+            <!-- ========================================================= -->
+            <!-- 1 -->
+            <div class="staff-card">
+                <h2>1. นายบรรพจน์ พันธ์รักษ์ — ตำแหน่ง นายช่างเทคนิค 6</h2>
+                <div class="staff-info">
+                    รหัสประจำตัว: <strong>13811876</strong><br>
+                    หน้าที่: <strong>งานแผนงานประจำปี / แบบข่ายสาย</strong>
+                </div>
+                <ul class="task-list">
+                    <li>จัดทำแผนงานประจำปี ออกแบบ สร้าง ขยาย ปรับปรุง รื้อถอน และจัดเก็บข้อมูลแบบโครงข่าย</li>
+                    <li>เป็นผู้ติดต่อประสานงานกับหน่วยงานภายนอก เช่น การไฟฟ้าส่วนภูมิภาค การปกครองท้องถิ่น สถานีตำรวจ กสทช.</li>
+                    <li>วิเคราะห์ข้อมูลการตลาดและความต้องการระบบสื่อสารข้อมูลในอนาคตเพื่อขยายบริการ</li>
+                    <li>ควบคุมและติดตามงานงบลงทุนระบบ FTTxSM และ TOR</li>
+                    <li>จัดทำทะเบียนสถานะการใช้งานโครงข่าย</li>
+                    <li>ตรวจสอบเรื่องร้องเรียนด้านข่ายสายจากหน่วยงานภายนอก</li>
+                    <li>ควบคุมคุณภาพข่ายสายให้เป็นไปตามมาตรฐานและ SLA</li>
+                    <li>ควบคุมงานตามข้อกำหนดของ บมจ.เอ็นที</li>
+                    <li>ร่วมกิจกรรมการขายและสนับสนุนงานภายใต้ บภน.2.1 (กส.)</li>
+                    <li>ปฏิบัติงานตามนโยบายที่ได้รับมอบหมาย</li>
+                </ul>
+            </div>
+
+            <!-- 2 -->
+            <div class="staff-card">
+                <h2>2. นายชุมพล ศิลาสิทธิ์ — ตำแหน่ง นักปฏิบัติการช่าง 6</h2>
+                <div class="staff-info">
+                    รหัสประจำตัว: <strong>13819567</strong><br>
+                    หน้าที่: <strong>งานปรับปรุงโครงข่าย</strong>
+                </div>
+                <ul class="task-list">
+                    <li>สำรวจ ควบคุม ดูแลการติดตั้ง ย้าย รื้อถอน ตรวจแก้ และบำรุงรักษาข่ายสายเคเบิล</li>
+                    <li>วิเคราะห์ข้อมูลตลาดและความต้องการระบบสื่อสารในอนาคต</li>
+                    <li>ประสานงานกับหน่วยงานภายนอก เช่น กฟภ. ท้องถิ่น ตำรวจ กสทช.</li>
+                    <li>ควบคุมคุณภาพข่ายสายให้ได้มาตรฐานและเป็นไปตาม SLA</li>
+                    <li>ควบคุมงานตามข้อกำหนด บมจ.เอ็นที</li>
+                    <li>ตรวจสอบความปลอดภัยประจำศูนย์</li>
+                    <li>ร่วมกิจกรรมการขาย ภายใต้ บภน.2.1 (กส.)</li>
+                    <li>ปฏิบัติงานตามนโยบายที่ได้รับมอบหมาย</li>
+                </ul>
+            </div>
+
+            <!-- 3 -->
+            <div class="staff-card">
+                <h2>3. นายอาทิตย์ ฆารเจริญ — ตำแหน่ง นายช่างเทคนิค 4</h2>
+                <div class="staff-info">
+                    รหัสประจำตัว: <strong>13902627</strong><br>
+                    หน้าที่: <strong>งานปรับปรุงโครงข่าย</strong>
+                </div>
+                <ul class="task-list">
+                    <li>สำรวจ ควบคุม ดูแลการติดตั้ง ย้าย รื้อถอน ตรวจแก้ และบำรุงรักษาข่ายสายเคเบิล</li>
+                    <li>ประสานงานกับหน่วยงานภายนอก</li>
+                    <li>ควบคุมคุณภาพข่ายสายให้ได้มาตรฐานและเป็นไปตาม SLA</li>
+                    <li>ควบคุมงานตามข้อกำหนดของ บมจ.เอ็นที</li>
+                    <li>ร่วมกิจกรรมการขายและสนับสนุนงานภายใต้ บภน.2.1 (กส.)</li>
+                    <li>งานตามนโยบายที่ได้รับมอบหมาย</li>
+                </ul>
+            </div>
+
+            <!-- 4 -->
+            
+
+            <!-- 5 -->
+            <div class="staff-card">
+                <h2>4. นายอรรคพล หงษ์ทอง — ตำแหน่ง นายช่างโทรคมนาคม 6</h2>
+                <div class="staff-info">
+                    รหัสประจำตัว: <strong>001000210</strong><br>
+                    หน้าที่: <strong>ซ่อมแซมและบำรุงรักษาข่ายสาย</strong>
+                </div>
+                <ul class="task-list">
+                    <li>ซ่อมแซม ปรับปรุง บำรุงรักษาข่ายสายเคเบิล</li>
+                    <li>ควบคุมคุณภาพข่ายสายตามมาตรฐานและ SLA</li>
+                    <li>ประสานงานกับหน่วยงานภายนอก</li>
+                    <li>ควบคุมงานตามข้อกำหนดของ บมจ.เอ็นที</li>
+                    <li>ร่วมกิจกรรมการขายภายใต้ บภน.2.1</li>
+                    <li>งานตามนโยบาย</li>
+                </ul>
+            </div>
+
+            <!-- 6 -->
+            <div class="staff-card">
+                <h2>5. นางสาวยุพิน โลตุรัตน์ — ตำแหน่ง นักปฏิบัติการทั่วไป 5</h2>
+                <div class="staff-info">
+                    รหัสประจำตัว: <strong>14401020</strong><br>
+                    หน้าที่: <strong>งานบำรุงรักษาข่ายสาย / งานธุรการ</strong>
+                </div>
+                <ul class="task-list">
+                    <li>จัดทำเอกสารการเบิกพัสดุ</li>
+                    <li>เก็บข้อมูลอัตรากำลังและรถยนต์ประจำศูนย์</li>
+                    <li>ควบคุมงานตามข้อกำหนดของ บมจ.เอ็นที</li>
+                    <li>ร่วมกิจกรรมการขายภายใต้ บภน.2.1</li>
+                    <li>งานธุรการประจำศูนย์</li>
+                    <li>งานตามนโยบาย</li>
+                </ul>
+            </div>
+
+            <!-- 7 -->
+            <div class="staff-card">
+                <h2>6. นายวรพันธุ์ บูรณะพล — ตำแหน่ง นายช่างชำนาญงาน</h2>
+                <div class="staff-info">
+                    รหัสประจำตัว: <strong>25700015</strong><br>
+                    หน้าที่: <strong>ซ่อมแซม / บำรุงรักษาข่ายสาย</strong>
+                </div>
+                <ul class="task-list">
+                    <li>ซ่อมแซม ปรับปรุง บำรุงรักษาข่ายสายเคเบิล</li>
+                    <li>ควบคุมคุณภาพข่ายสายให้เป็นไปตาม SLA</li>
+                    <li>ประสานงานกับ กฟภ. ท้องถิ่น ตำรวจ กสทช.</li>
+                    <li>ควบคุมงานตรวจแก้เหตุเสีย SCOMS, 1177, OS</li>
+                    <li>จัดทำเอกสารจัดซื้อจัดจ้างและเบิกจ่าย</li>
+                    <li>ตรวจสอบเรื่องร้องเรียนด้านข่ายสาย</li>
+                    <li>จัดหาพัสดุอุปกรณ์ประจำแผนก</li>
+                    <li>ควบคุมงานตามข้อกำหนดของ บมจ.เอ็นที</li>
+                    <li>ร่วมกิจกรรมการขายภายใต้ บภน.2.1</li>
+                </ul>
+            </div>
+
+            <!-- 8 -->
+            <div class="staff-card">
+                <h2>7. นายสามารถ ภูพลผัน — ตำแหน่ง นายช่างชำนาญงาน</h2>
+                <div class="staff-info">
+                    รหัสประจำตัว: <strong>25901958</strong><br>
+                    หน้าที่: <strong>ซ่อมแซม / บำรุงรักษาข่ายสาย</strong>
+                </div>
+                <ul class="task-list">
+                    <li>ซ่อมแซม ปรับปรุง บำรุงรักษาข่ายสายเคเบิล</li>
+                    <li>ควบคุมคุณภาพข่ายสายให้เป็นไปตาม SLA</li>
+                    <li>ประสานงานกับ กฟภ. ท้องถิ่น ตำรวจ กสทช.</li>
+                    <li>ควบคุมงานตรวจแก้เหตุเสีย SCOMS, 1177, OS</li>
+                    <li>จัดทำเอกสารจัดซื้อจัดจ้างและเบิกจ่าย</li>
+                    <li>ตรวจสอบเรื่องร้องเรียนด้านข่ายสาย</li>
+                    <li>จัดหาพัสดุอุปกรณ์ประจำแผนก</li>
+                    <li>ควบคุมงานตามข้อกำหนดของ บมจ.เอ็นที</li>
+                    <li>ร่วมกิจกรรมการขายภายใต้ บภน.2.1</li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+
+<script>
+const menuData = {
+  "sidebarMenu": [
+    { "title": "หน้าแรก", "path": "\index.html" },
+{
+      "title": "โครงสร้างแผนก",
+      "children": [
+        { "title": "อัตรากำลัง", "path": "A1.html" },
+        { "title": "หน้าที่บุคลากร", "path": "A2.html" },
+        { "title": "ทำเนียบบุคลากร", "path": "A3.html" }
+      ]
+    },
+     {
+      "title": "งานที่รับผิดชอบ",
+      "children": [
+        { "title": "โครงข่าย", "path": "B1.html" },
+        { "title": "ใบสั่งงาน", "path": "B2.html" },
+        { "title": "ตารางบำรุงรักษา", "path": "B3.html" },
+        { "title": "Outside plan map (OPM) ", "path": "B4.html" },
+        { "title": "ความปลอดภัย อาชีวอนามัย", "path": "\B5.html" }
+      ]
+    },
+     {
+      "title": "แจ้งเหตุเสีย/1888",
+      "children": [
+        { "title": "Scoms", "path": "/ticket/new" },
+        { "title": "Umbo", "path": "/ticket/status" }
+      ]
+    },
+   
+    { "title": "ติดต่อ", "path": "E1.html" }
+]
+};
+
+const container = document.getElementById("menuContainer");
+const currentPath = window.location.pathname.replace(/\/$/, ""); // Path ปัจจุบัน เช่น /about/duty
+
+menuData.sidebarMenu.forEach(menu => {
+    const item = document.createElement("div");
+    item.className = "menu-item";
+    
+    // ตรวจสอบเมนูหลัก
+    if (menu.path && currentPath.endsWith(menu.path.replace(/\./g, ''))) {
+        item.classList.add('active');
+    }
+
+    if (!menu.children) {
+        item.innerHTML = `<a href="${menu.path}">${menu.title}</a>`;
+        container.appendChild(item);
+        return;
+    }
+
+    item.textContent = menu.title;
+
+    const submenu = document.createElement("div");
+    submenu.className = "submenu";
+    let hasActiveSubmenu = false;
+
+    menu.children.forEach(sub => {
+        const subItem = document.createElement("div");
+        subItem.className = "submenu-item";
+        
+        // ตรวจสอบเมนูย่อย
+        if (currentPath.endsWith(sub.path)) {
+            subItem.classList.add('active');
+            hasActiveSubmenu = true;
+        }
+        
+        subItem.innerHTML = `<a href="${sub.path}">• ${sub.title}</a>`;
+        submenu.appendChild(subItem);
+    });
+    
+    // ถ้ามีเมนูย่อยที่ Active ให้เปิด Submenu ไว้
+    if (hasActiveSubmenu) {
+        submenu.style.display = "block";
+        item.classList.add('active'); // เน้นเมนูหลักด้วย
+    }
+
+    item.onclick = () => {
+        submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+    };
+
+    container.appendChild(item);
+    container.appendChild(submenu);
+});
+</script>
+
+</body>
+</html>

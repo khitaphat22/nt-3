@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ติดต่อ – สำนักงาน NT กาฬสินธุ์</title>
+
+<style>  
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+        background: #fff8d6;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 270px;
+        background: #f5c400;
+        color: #000;
+        padding: 20px 0;
+        overflow-y: auto;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+    }
+
+    .logo-box {
+        text-align: center;
+        padding: 15px 0 10px;
+    }
+
+    .logo-box img {
+        width: 120px;
+        height: auto;
+    }
+
+    .menu-title, .menu-item, .submenu-item {
+        padding: 10px 22px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.2s;
+    }
+
+    .menu-title {
+        font-size: 18px;
+        font-weight: bold;
+        background: #e0b200;
+        margin-top: 18px;
+    }
+    .menu-title:first-of-type {
+        margin-top: 0;
+    }
+
+    .menu-item:hover, .submenu-item:hover {
+        background: #ffdd4d;
+    }
+
+    .submenu {
+        padding-left: 35px;
+        display: none;
+        font-size: 14px;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* CONTENT */
+    .content {
+        flex: 1;
+        padding: 25px;
+    }
+
+    .contact-box {
+        background: #fff;
+        padding: 25px;
+        border-radius: 10px;
+        max-width: 800px;
+        margin: auto;
+        box-shadow: 0 0 8px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+        color: #e0b200;
+        margin-top: 0;
+    }
+
+    iframe {
+        width: 100%;
+        height: 350px;
+        border: 0;
+        margin-top: 20px;
+        border-radius: 10px;
+    }
+</style>
+</style>
+<style>
+@media (max-width:1024px){.sidebar{width:220px}.content{padding:30px 16px}}
+@media (max-width:768px){body{flex-direction:column}.sidebar{width:100%;padding:10px}.content{padding:18px}.card{width:calc(50% - 16px)}img{max-width:100%}}
+@media (max-width:420px){.card{width:100%}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <div class="logo-box">
+        <img src="image/logo.png" alt="Logo ศูนย์วิศวกรรมโครงข่าย">
+    </div>
+
+    <div class="menu-title" id="mainMenu">ศูนย์วิศวกรรมโครงข่าย</div>
+    <div id="menuContainer" class="submenu"></div>
+
+    <div class="menu-title" id="mainMenu2">ศูนย์วิศวกรรมสื่อสารข้อมูลและการกำลัง</div>
+    <div id="menuContainer2" class="submenu"></div>
+
+    <div class="menu-title" id="mainMenu3">ศูนย์การขาย ติดตามหนี้และวิศวกรรมบริการ</div>
+    <div id="menuContainer3" class="submenu"></div>
+
+    <div class="menu-title" id="mainMenu4">ศูนย์สนับสนุน</div>
+    <div id="menuContainer4" class="submenu"></div>
+</div>
+
+
+<!-- CONTENT -->
+<div class="content">
+    <div class="contact-box">
+        <h1>ติดต่อ – สำนักงาน nt กาฬสินธุ์</h1>
+
+        <h2>ข้อมูลติดต่อ</h2>
+        <p><strong>ที่อยู่:</strong> 146 ม.2 ตำบลโพนทอง อำเภอเมือง จังหวัดกาฬสินธุ์ 46000</p>
+        <p><strong>โทรศัพท์:</strong> 043-840555</p>
+        <p><strong>อีเมล:</strong> info.kalasin@ntplc.co.th</p>
+        <p><strong>เวลาทำการ:</strong> จันทร์ – ศุกร์ เวลา 08:30 – 16:30 น.</p>
+
+        <h2>แผนที่สำนักงาน</h2>
+        <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1045.4!2d103.5240436!3d16.4672857!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3122b55f0ddacd0b%3A0x413777cc6d39ec3a!2sNational%20Public%20Company%20Limited!5e0!3m2!1sth!2sth!4v2026" 
+            allowfullscreenloading="lazy">
+        </iframe>
+
+    </div>
+</div>
+
+<script>
+// ------------------------- เมนู Template -------------------------
+const menuTemplate = [
+    { "title": "หน้าแรก", "path": "index.html" },
+   {
+      "title": "โครงสร้างแผนก",
+      "children": [
+        { "title": "อัตรากำลัง", "path": "A1.html" },
+        { "title": "หน้าที่บุคลากร", "path": "A2.html" },
+        { "title": "ทำเนียบบุคลากร", "path": "A3.html" }
+      ]
+    },
+    {
+      "title": "งานที่รับผิดชอบ",
+      "children": [
+        { "title": "โครงข่าย", "path": "B1.html" },
+        { "title": "ใบสั่งงาน", "path": "B2.html" },
+        { "title": "ตารางบำรุงรักษา", "path": "B3.html" },
+        { "title": "Outside plan map (OPM) ", "path": "B4.html" },
+        { "title": "ความปลอดภัย อาชีวอนามัย", "path": "\B5.html" }
+      ]
+    },
+     {
+      "title": "แจ้งเหตุเสีย/1888",
+      "children": [
+        { "title": "Scoms", "path": "/ticket/new" },
+        { "title": "Umbo", "path": "/ticket/status" }
+      ]
+    },
+    { "title": "ติดต่อ", "path": "E1.html" }
+];
+
+const menuTemplate2 = [
+    {
+        "title": "อื่น ๆ",
+        "children": [
+            { "title": "ติดต่อเจ้าหน้าที่", "path": "ITcontact.html" }
+        ]
+    }
+];
+
+const menuTemplate3 = [
+    {
+        "title": "งานติดตั้ง",
+        "children": [
+            { "title": "ติดตั้งอุปกรณ์ FTTx", "path": "F1.html" },
+            { "title": "ติดตั้งวงจรเช่า", "path": "F2.html" }
+        ]
+    },
+    {
+        "title": "งานตรวจสอบ",
+        "children": [
+            { "title": "ตรวจสอบสัญญาณ", "path": "F3.html" },
+            { "title": "ตรวจสอบอุปกรณ์", "path": "F4.html" }
+        ]
+    }
+];
+
+const menuTemplate4 = [
+    {
+        "title": "รายงานข้อมูล",
+        "children": [
+            { "title": "สถิติอุปกรณ์ขัดข้อง", "path": "D1.html" },
+            { "title": "สถิติลูกค้าใช้งาน", "path": "D2.html" }
+        ]
+    },
+    {
+        "title": "แดชบอร์ด",
+        "children": [
+            { "title": "Dashboard เครือข่าย", "path": "Dash1.html" },
+            { "title": "Dashboard ลูกค้า", "path": "Dash2.html" }
+        ]
+    }
+];
+
+// ------------------------- ฟังก์ชันสร้างเมนู -------------------------
+function buildMenu(containerId, menuData) {
+    const container = document.getElementById(containerId);
+    const currentPage = window.location.pathname.split("/").pop(); 
+
+    menuData.forEach(menu => {
+        const item = document.createElement("div");
+        item.className = "menu-item";
+
+        if (menu.children && menu.children.length > 0) {
+            item.textContent = menu.title;
+
+            const submenu = document.createElement("div");
+            submenu.className = "submenu";
+
+            let hasActiveSubmenu = false;
+
+            menu.children.forEach(sub => {
+                const subItem = document.createElement("div");
+                subItem.className = "submenu-item";
+
+                const subPage = sub.path.split("/").pop();
+                const isActive = currentPage === subPage;
+
+                if (isActive) {
+                    hasActiveSubmenu = true;
+                    subItem.style.background = "#ffe98a";
+                    subItem.style.fontWeight = "bold";
+                }
+
+                subItem.innerHTML = `<a href="${sub.path}">• ${sub.title}</a>`;
+                submenu.appendChild(subItem);
+            });
+
+            if (hasActiveSubmenu) {
+                submenu.style.display = "block";
+                item.classList.add('active'); 
+                item.style.background = "#ffdd4d";
+                item.style.fontWeight = "bold";
+            }
+
+            item.onclick = () => {
+                submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+            };
+
+            container.appendChild(item);
+            container.appendChild(submenu);
+
+        } else if (menu.path) {
+            const page = menu.path.split("/").pop();
+            const isActive = currentPage === page;
+
+            if (isActive) {
+                item.style.background = "#ffdd4d";
+                item.style.fontWeight = "bold";
+            }
+
+            item.innerHTML = `<a href="${menu.path}">${menu.title}</a>`;
+            container.appendChild(item);
+        }
+    });
+}
+
+
+// ------------------------- แสดง/ซ่อนเมนู -------------------------
+function toggleMenu(id) {
+    const c = document.getElementById(id);
+    c.style.display = c.style.display === "block" ? "none" : "block";
+}
+
+document.getElementById("mainMenu").onclick = () => toggleMenu("menuContainer");
+document.getElementById("mainMenu2").onclick = () => toggleMenu("menuContainer2");
+document.getElementById("mainMenu3").onclick = () => toggleMenu("menuContainer3");
+document.getElementById("mainMenu4").onclick = () => toggleMenu("menuContainer4");
+
+// ------------------------- สร้างเมนู -------------------------
+buildMenu("menuContainer", menuTemplate);
+buildMenu("menuContainer2", menuTemplate2);
+buildMenu("menuContainer3", menuTemplate3);
+buildMenu("menuContainer4", menuTemplate4);
+
+// ⭐ ให้เมนูศูนย์วิศวกรรมโครงข่ายเปิดค้างเสมอ ⭐
+document.getElementById("menuContainer").style.display = "block";
+
+</script>
+
+</body>
+</html>

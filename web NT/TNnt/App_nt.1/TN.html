@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>แผนกโครงข่าย – บุคลากร (ผังองค์กร)</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+    body {
+        margin: 0;
+        font-family: 'Inter', Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+        background: #fff8d6;
+    }
+
+    /* --- Sidebar Styling --- */
+    .sidebar {
+        width: 270px;
+        background: #f5c400;
+        color: #000;
+        padding: 20px 0;
+        overflow-y: auto;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+        z-index: 10;
+        flex-shrink: 0;
+    }
+
+    .logo-box {
+        text-align: center;
+        padding: 15px 0 10px;
+    }
+
+    .logo-box img {
+        width: 120px;
+        height: auto;
+    }
+
+    .menu-title {
+        padding: 12px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        background: #e0b200;
+        margin-bottom: 5px;
+        color: #000;
+    }
+
+    .menu-item, .submenu-item {
+        padding: 10px 22px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.2s;
+    }
+
+    .menu-item.active, .submenu-item.active {
+        background: #ffdd4d;
+        font-weight: 600;
+    }
+    
+    .menu-item:hover, .submenu-item:hover {
+        background: #ffdd4d;
+    }
+
+    .submenu {
+        padding-left: 35px;
+        font-size: 14px;
+        display: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* --- Content Area Styling --- */
+    .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+        padding: 50px 20px 50px 20px;
+        overflow-y: auto;
+    }
+
+    /* --- ORGANIZATION CHART (ใหม่ ตามที่ให้มา) --- */
+
+.org-chart {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.level {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    margin-top: 40px;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.level-2 {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 50px;
+    margin-top: 100px;
+}
+
+.level-7 {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.person {
+    width: 200px;
+    margin: 0 40px;
+    text-align: center;
+    position: relative;
+}
+
+.person img {
+    width: 200px;
+    height: 250px;
+    border: 4px solid #d9b36c;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.person .name {
+    width: 200px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    padding: 0 4px;
+    font-size: 15px;
+    font-weight: 1000;
+}
+
+.person-role {
+    font-size: 13px;
+    color: #8c4a00;
+}
+
+.branch {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    margin-top: 20px;
+}
+
+/* New layout: rows with 1,2,3,4 images */
+.container {
+    width: 100%;
+    max-width: 1100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 28px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 200px;
+    text-align: center;
+    margin-bottom: 30px; /* เพิ่มระยะห่างด้านล่าง */
+    position: relative; /* <-- จำเป็นสำหรับปุ่มแก้ไขทับรูป */
+    z-index: 2;
+}
+
+/* ปุ่มแก้ไขรูปบนการ์ด */
+.card .edit-btn{
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .15s ease, transform .12s ease;
+    z-index: 6;
+}
+.card:hover .edit-btn{ opacity: 1; transform: translateY(-2px); }
+.card .edit-btn svg{ width:16px; height:16px; display:block; }
+
+/* ให้ชื่อ/ตำแหน่งอยู่เหนือเส้นเสมอ */
+.name, .position { position: relative; z-index: 8; }
+
+.card img {
+    width: 200px;
+    height: 250px;
+    object-fit: cover;
+    border: 4px solid #d9b36c;
+    border-radius: 6px;
+}
+
+.card .name {
+    margin-top: 8px;
+    font-weight: 700;
+}
+
+.card .position {
+    color: #8c4a00;
+    font-size: 14px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+    gap: 100px;       /* ระยะห่างแนวนอนระหว่างรูป */
+    margin-top: 40px; /* ระยะห่างระหว่างชั้น */
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 200px;
+    text-align: center;
+    margin-bottom: 30px; /* เพิ่มระยะห่างด้านล่าง */
+    position: relative; /* <-- จำเป็นสำหรับปุ่มแก้ไขทับรูป */
+    z-index: 2;
+}
+
+/* ปุ่มแก้ไขรูปบนการ์ด */
+.card .edit-btn{
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .15s ease, transform .12s ease;
+    z-index: 6;
+}
+.card:hover .edit-btn{ opacity: 1; transform: translateY(-2px); }
+.card .edit-btn svg{ width:16px; height:16px; display:block; }
+
+/* ให้ชื่อ/ตำแหน่งอยู่เหนือเส้นเสมอ */
+.name, .position { position: relative; z-index: 8; }
+
+/* กล่องชื่อ (ไม่ขยับตำแหน่งเดิม) */
+.name-wrap{
+    display: inline-block;
+    position: relative;
+}
+
+/* ปุ่มแก้ไขติดข้างชื่อ */
+.name-wrap .edit-text-btn{
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,.65);
+    color: #fff;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: .2s;
+    z-index: 10;
+}
+
+.card:hover .edit-text-btn{
+    opacity: 1;
+}
+
+.name-wrap .edit-text-btn svg{
+    width: 12px;
+    height: 12px;
+}
+
+.name {
+    white-space: nowrap;
+}
+
+/* ==== POPUP STYLE (ใหม่) ==== */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.popup-box {
+    background: #ffe99c;
+    border: 4px solid #d9b36c;
+    border-radius: 14px;
+    padding: 20px;
+    width: 720px;
+    max-width: 95vw;
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+    animation: popupFade .2s ease-out;
+}
+
+.popup-photo {
+    width: 260px;
+    height: 320px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 4px solid #d9b36c;
+    flex-shrink: 0;
+}
+
+.popup-detail {
+    flex: 1;
+    text-align: left;
+    color: #5a3b00;
+    font-size: 15px;
+}
+
+.popup-detail h2 {
+    margin: 0 0 10px;
+    font-size: 22px;
+}
+
+.popup-row {
+    margin-bottom: 6px;
+}
+
+.popup-row b {
+    display: inline-block;
+    width: 120px;
+}
+
+.popup-close-btn {
+    margin-top: 10px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    background: #f5c400;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.popup-close-btn:hover {
+    background: #e0b200;
+}
+
+.popup-x {
+    position: absolute;
+    right: 14px;
+    top: 8px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #5a3b00;
+}
+
+@keyframes popupFade {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+</style>
+
+<style>
+/* Responsive rules for tablet and phone */
+@media (max-width: 1024px) {
+    .sidebar { width: 220px; }
+    .content { padding: 30px 16px 40px 16px; }
+    .card, .person { width: 180px; }
+    .card img, .person img { width: 100%; height: auto; }
+    .row { gap: 20px; }
+}
+
+@media (max-width: 768px) {
+    body { flex-direction: column; height: auto; }
+    .sidebar {
+        width: 100%;
+        position: relative;
+        box-shadow: none;
+        padding: 10px 8px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .logo-box { padding: 8px 6px; }
+    .logo-box img { width: 90px; height: auto; }
+    .menu-title { padding: 8px 12px; font-size: 16px; }
+    .menu-item, .submenu-item { padding: 8px 12px; font-size: 14px; }
+    .content { padding: 18px 12px 36px 12px; }
+    .container { padding: 0 8px; }
+    .card { width: calc(50% - 16px); margin: 0 8px 18px; }
+    .card img { width: 100%; height: auto; }
+    .name, .position { white-space: normal; }
+    .popup-box { width: 95vw; flex-direction: column; align-items: center; }
+    .popup-photo { width: 180px; height: 220px; }
+    .popup-detail { font-size: 14px; }
+}
+
+@media (max-width: 420px) {
+    .card { width: 100%; margin: 0 0 14px 0; }
+    h1 { font-size: 28px; }
+    .name { font-size: 15px; }
+    .position { font-size: 13px; }
+    .menu-item, .submenu-item { padding: 10px; font-size: 15px; }
+    .logo-box img { width: 72px; }
+}
+
+/* Responsive - Mobile & Tablet */
+@media (max-width: 1024px) {
+    .sidebar { width: 220px; }
+    .content { padding: 30px 16px 40px 16px; }
+}
+
+@media (max-width: 768px) {
+    body { flex-direction: column; height: auto; }
+    .sidebar { width: 100%; padding: 10px 8px; }
+    .logo-box img { width: 90px; }
+    .content { padding: 18px 12px 36px 12px; }
+    .card { width: calc(50% - 16px); margin: 0 8px 18px; }
+    .card img { width: 100%; height: auto; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo-box">
+        <img src="image/logo.png" alt="Logo ศูนย์วิศวกรรมโครงข่าย">
+    </div>
+    <div class="menu-title">ทำเนียบผู้บริหาร</div>
+    <div id="menuContainer"></div>
+</div>
+
+<div class="content">
+
+    <h1 style="color:#8c7300; border-bottom:3px solid #f5c400; padding-bottom:10px; font-size:40px;">
+    ทำเนียบผู้บริหาร <br> 
+</h1>
+
+   <div class="container">
+
+    <!-- Row 1: 1 image -->
+<div class="container">
+
+    <!-- ชั้น 1 -->
+    <div class="row">
+        <div class="card"
+        data-phone="082222222222"
+        data-dept="บตป.1(กส.)"
+        data-email="head@example.com"
+        data-address="สำนักงานใหญ่ TOT"
+        data-line="head-line"
+        data-age="45 / ชาย">
+            <img src="image\TN.jpg" />
+            <div class="name-wrap">
+            <div class="name">นายเอกพงษ์ แสนชัย</div>
+            </div>
+       <div class="position">ผส.บตป.1(กส.)</div>
+        </div>
+    </div>
+
+    
+    <!-- ชั้น 2 -->
+    <div class="row">
+    <!-- ซ้าย: ช.ผส. -->
+    <div class="card"
+        data-phone="082222222222"
+        data-dept="บตป.1(กส.)"
+        data-email="head@example.com"
+        data-address="สำนักงานใหญ่ TOT"
+        data-line="head-line"
+        data-age="45 / ชาย"> <!-- ข้อมูลส่วนตัว1 -->
+        <img src="image\unnamed11.jpg" />
+        <div class="name-wrap">
+        <div class="name">นายธราธร มัชฌิมา</div>
+        </div>
+        <div class="position">ช.ผส.บตป.1(กส.)ท.</div>
+
+
+        <div class="row row-3-sub" style="flex-direction: column; gap: 20px; margin-top: 20px;">
+            <div class="card"
+        data-phone="082222222222"
+        data-dept="บตป.1(กส.)"
+        data-email="head@example.com"
+        data-address="สำนักงานใหญ่ TOT"
+        data-line="head-line"
+        data-age="45 / ชาย"> <!-- ข้อมูลส่วนตัว1 -->
+                <img src="image/Gemini_Generated_Image_j81gh1j81gh1j81g_0.png" />
+                <div class="name-wrap">
+            <div class="name">นายกำพล อิ่มรัตนกุล</div>
+            </div>
+                <div class="position">ผจ.วบตป.1(กส.)</div>
+            </div>
+
+            <div class="card"
+        data-phone="082222222222"
+        data-dept="บตป.1(กส.)"
+        data-email="head@example.com"
+        data-address="สำนักงานใหญ่ TOT"
+        data-line="head-line"
+        data-age="45 / ชาย"> <!-- ข้อมูลส่วนตัว1 -->
+                <img src="image/Gemini_Generated_Image_gowjh9gowjh9gowj.png" />
+                <div class="name-wrap">
+                <div class="name">นายเสกสรรค์ นนทภา</div>
+                </div>
+                <div class="position">ผจ.ลบตป1(กส.)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ตรงกลาง: สบตป.1(กส.) -->
+    <div class="card"
+        data-phone="082222222222"
+        data-dept="บตป.1(กส.)"
+        data-email="head@example.com"
+        data-address="สำนักงานใหญ่ TOT"
+        data-line="head-line"
+        data-age="45 / ชาย"> <!-- ข้อมูลส่วนตัว1 -->
+        <img src="image/Gemini_Generated_Image_jn8yewjn8yewjn8y_0.png" />
+        <div class="name-wrap">
+        <div class="name">นางนิตยาพร อาษาไชย</div>
+        </div>
+        <div class="position">ผจ.สบตป.1(กส.)</div>
+    </div>
+
+    <!-- ขวา: ชป.ผส. -->
+    <div class="card"
+        data-phone="082222222222"
+        data-dept="บตป.1(กส.)"
+        data-email="head@example.com"
+        data-address="สำนักงานใหญ่ TOT"
+        data-line="head-line"
+        data-age="45 / ชาย"> <!-- ข้อมูลส่วนตัว1 -->
+        <img src="image/Gemini_Generated_Image_h8hmm2h8hmm2h8hm_0.png" />
+        <div class="name-wrap">
+        <div class="name">นางพรอุมา วัฒนาประดิษฐชัย</div>
+        </div>
+        <div class="position">ชป.ผส.บตป.1(กส.)ข.</div>
+
+
+        <div class="row row-4-sub" style="flex-direction: column; gap: 20px; margin-top: 20px;">
+            <div class="card"
+        data-phone="082222222222"
+        data-dept="บตป.1(กส.)"
+        data-email="head@example.com"
+        data-address="สำนักงานใหญ่ TOT"
+        data-line="head-line"
+        data-age="45 / ชาย"> <!-- ข้อมูลส่วนตัว1 -->
+                <img src="image/LINE_NOTE_251212_2_0.jpg" />
+               <div class="name-wrap">
+                <div class="name">นางสาววิมลมาลย์ พิทักษ์เผ่าสกุล</div>
+                </div>
+                <div class="position">บบตป.1(กส.)(กส.)</div>
+            </div>
+
+            <div class="card"
+        data-phone="082222222222"
+        data-dept="บตป.1(กส.)"
+        data-email="head@example.com"
+        data-address="สำนักงานใหญ่ TOT"
+        data-line="head-line"
+        data-age="45 / ชาย"> <!-- ข้อมูลส่วนตัว1 -->
+                <img src="image/1232487_0.jpg" />
+                <div class="name-wrap">
+                <div class="name">นายวัชระ ภัทรประเสริฐ</div>
+                </div>
+                <div class="position">(สจ.)</div>
+            </div>
+
+
+            <div class="card"
+        data-phone="082222222222"
+        data-dept="บตป.1(กส.)"
+        data-email="head@example.com"
+        data-address="สำนักงานใหญ่ TOT"
+        data-line="head-line"
+        data-age="45 / ชาย"> <!-- ข้อมูลส่วนตัว1 -->
+                <img src="image/gemini.png" />
+                <div class="name-wrap">
+                <div class="name">นายอภิชาติ บุญแนน</div>
+                </div>
+                <div class="position">ผจ.บบตป.1(กส.)(กร.)</div>
+            </div>
+
+            <div class="card"
+        data-phone="082222222222"
+        data-dept="บตป.1(กส.)"
+        data-email="head@example.com"
+        data-address="สำนักงานใหญ่ TOT"
+        data-line="head-line"
+        data-age="45 / ชาย"> <!-- ข้อมูลส่วนตัว1 -->
+                <img src="image/Gemini_Generated_Image_p3myxhp3myxhp3my.png" />
+                <div class="name-wrap">
+                <div class="name">นายแดนเพรช แก้วมณีชัย</div>
+                </div>
+                <div class="position">ผจ.ขบตป.1(กส.)</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+
+</div>
+
+<!-- hidden file input used to replace images -->
+<input id="imgUploader" type="file" accept="image/*" style="display:none" />
+
+<script>
+const menuData = {
+  "sidebarMenu": [
+    { "title": "หน้าแรก", "path": "\index.html" },
+]
+};
+
+const container = document.getElementById("menuContainer");
+const currentPath = window.location.pathname.replace(/\/$/, "");
+
+menuData.sidebarMenu.forEach(menu => {
+    const item = document.createElement("div");
+    item.className = "menu-item";
+
+    if (menu.path && currentPath.endsWith(menu.path.replace(/\./g, ''))) {
+        item.classList.add('active');
+    }
+
+    if (!menu.children) {
+        item.innerHTML = `<a href="${menu.path}">${menu.title}</a>`;
+        container.appendChild(item);
+        return;
+    }
+
+    item.textContent = menu.title;
+
+    const submenu = document.createElement("div");
+    submenu.className = "submenu";
+    let hasActiveSubmenu = false;
+
+    menu.children.forEach(sub => {
+        const subItem = document.createElement("div");
+        subItem.className = "submenu-item";
+
+        if (currentPath.endsWith(sub.path)) {
+            subItem.classList.add('active');
+            hasActiveSubmenu = true;
+        }
+
+        subItem.innerHTML = `<a href="${sub.path}">• ${sub.title}</a>`;
+        submenu.appendChild(subItem);
+    });
+
+    if (hasActiveSubmenu) {
+        submenu.style.display = "block";
+        item.classList.add('active');
+    }
+
+    item.onclick = () => {
+        submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+    };
+
+container.appendChild(item);
+    container.appendChild(submenu);
+});
+</script>
+
+<!-- new inline script to enable image editing -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const STORAGE_KEY = 'orgImages_v1';
+  const uploader = document.getElementById('imgUploader');
+  let currentImg = null;
+
+  // helpers for persistence
+  function readStore(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch(e){ return {}; } }
+  function writeStore(obj){ try { localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)); } catch(e){ console.warn('save failed', e); } }
+  function saveImageForCard(cardId, dataUrl){
+    const map = readStore(); map[cardId] = dataUrl; writeStore(map);
+  }
+  function removeSavedImage(cardId){
+    const map = readStore(); if(map[cardId]){ delete map[cardId]; writeStore(map); }
+  }
+
+  // assign stable id to cards and restore any saved images
+  function ensureCardIdsAndRestore(){
+    const map = readStore();
+    document.querySelectorAll('.card').forEach((card, idx) => {
+      if(!card.dataset.cardId) card.dataset.cardId = 'card-' + idx;
+      const id = card.dataset.cardId;
+      const img = card.querySelector('img');
+      if (!img) return;
+      // preserve original src if not stored
+      if (!img.dataset.orig) img.dataset.orig = img.src || '';
+      // if saved override exists — apply it
+      if (map[id]) img.src = map[id];
+    });
+  }
+
+  function createEditButton(card) {
+    if (card.querySelector('.edit-btn')) return;
+    // ensure card has id
+    if(!card.dataset.cardId) card.dataset.cardId = 'card-' + Math.floor(Math.random()*1e9);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'edit-btn';
+    btn.title = 'แก้ไขรูป';
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 21v-3.75L14.06 6.19l3.75 3.75L6.75 21H3z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    btn.addEventListener('click', () => {
+      const img = card.querySelector('img');
+      if (!img) return;
+      currentImg = img;
+      if (!img.dataset.orig) img.dataset.orig = img.src || '';
+      uploader.value = null;
+      uploader.click();
+    }, { passive: true });
+    card.appendChild(btn);
+  }
+
+  // apply saved images, add UI and handlers
+  ensureCardIdsAndRestore();
+
+  // add edit buttons to all .card elements that contain <img>
+  document.querySelectorAll('.card').forEach(card => {
+    const img = card.querySelector('img');
+    if (img) createEditButton(card);
+
+    // right-click menu on image to reset to original (and remove saved)
+    if (img) {
+      img.addEventListener('contextmenu', e => {
+        e.preventDefault();
+        if (!img.dataset.orig) return alert('ไม่มีรูปต้นฉบับบันทึกไว้');
+        if (confirm('คืนค่าเป็นรูปเดิม (ลบรูปที่บันทึกไว้)?')) {
+          // restore original
+          img.src = img.dataset.orig;
+          // remove saved entry
+          const id = card.dataset.cardId;
+          if (id) removeSavedImage(id);
+        }
+      });
+    }
+
+    // drag & drop replace on image with persistence
+    if (img) {
+      img.addEventListener('dragover', (e) => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; });
+      img.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const f = e.dataTransfer.files && e.dataTransfer.files[0];
+        if (!f || !f.type.startsWith('image/')) return alert('ลากรูปภาพมาทับเฉพาะไฟล์ภาพ');
+        if (!img.dataset.orig) img.dataset.orig = img.src || '';
+        const r = new FileReader();
+        r.onload = () => {
+          img.src = r.result;
+          // persist
+          if (!card.dataset.cardId) card.dataset.cardId = 'card-' + Math.floor(Math.random()*1e9);
+          saveImageForCard(card.dataset.cardId, r.result);
+        };
+        r.readAsDataURL(f);
+      });
+    }
+  });
+
+  // handle file chosen by user (upload via edit button)
+  uploader.addEventListener('change', (ev) => {
+    const file = ev.target.files && ev.target.files[0];
+    if (!file || !currentImg) return;
+    if (!file.type.startsWith('image/')) {
+      alert('ไฟล์ต้องเป็นรูปภาพเท่านั้น');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      currentImg.src = reader.result;
+      // persist change
+      const card = currentImg.closest('.card');
+      if(card){
+        if(!card.dataset.cardId) card.dataset.cardId = 'card-' + Math.floor(Math.random()*1e9);
+        saveImageForCard(card.dataset.cardId, reader.result);
+      }
+      currentImg = null;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // also ensure any dynamically added/changed cards get edit buttons (if page changes)
+  const observer = new MutationObserver(() => {
+    ensureCardIdsAndRestore();
+    document.querySelectorAll('.card').forEach(card => {
+      if(card.querySelector('img')) createEditButton(card);
+    });
+  });
+  observer.observe(document.querySelector('.container'), { childList: true, subtree: true });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const STORAGE_KEY = 'orgText_nameSide';
+
+  const loadStore = () =>
+    JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+  const saveStore = (data) =>
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+  document.querySelectorAll('.card').forEach((card, index) => {
+    if(!card.dataset.cardId){
+      card.dataset.cardId = 'card-' + index;
+    }
+    const id = card.dataset.cardId;
+
+    const nameWrap = card.querySelector('.name-wrap');
+    const nameEl   = card.querySelector('.name');
+    const posEl    = card.querySelector('.position');
+    if(!nameWrap || !nameEl || !posEl) return;
+
+    // ค่าเริ่มต้น
+    nameEl.dataset.orig = nameEl.textContent;
+    posEl.dataset.orig  = posEl.textContent;
+
+    // โหลดค่าที่เคยแก้
+    const store = loadStore();
+    if(store[id]){
+      nameEl.textContent = store[id].name;
+      posEl.textContent  = store[id].position;
+    }
+
+    // ปุ่ม ✏️
+    const btn = document.createElement('div');
+    btn.className = 'edit-text-btn';
+    btn.title = 'แก้ไขชื่อ / ตำแหน่ง';
+    btn.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M3 21v-3.75L14.06 6.19l3.75 3.75L6.75 21H3z"
+              stroke="currentColor"
+              stroke-width="1.5"/>
+      </svg>
+    `;
+    nameWrap.appendChild(btn);
+
+    btn.onclick = () => {
+      const newName = prompt('แก้ไขชื่อ', nameEl.textContent);
+      if(newName === null) return;
+
+      const newPos  = prompt('แก้ไขตำแหน่ง', posEl.textContent);
+      if(newPos === null) return;
+
+      nameEl.textContent = newName || nameEl.dataset.orig;
+      posEl.textContent  = newPos  || posEl.dataset.orig;
+
+      store[id] = {
+        name: nameEl.textContent,
+        position: posEl.textContent
+      };
+      saveStore(store);
+    };
+  });
+});
+
+</script>
+<div id="popupOverlay" class="popup-overlay">
+    <div class="popup-box">
+        <div class="popup-x" id="popupCloseX">✕</div>
+        <img id="popupImg" class="popup-photo" src="" alt="profile" />
+        <div class="popup-detail">
+            <h2 id="popupName">ชื่อ</h2>
+            <div class="popup-row"><b>ตำแหน่ง:</b> <span id="popupPosition"></span></div>
+            <div class="popup-row"><b>เบอร์โทร:</b> <span id="popupPhone"></span></div>
+            <div class="popup-row"><b>แผนก:</b> <span id="popupDept"></span></div>
+            <div class="popup-row"><b>อีเมล:</b> <span id="popupEmail"></span></div>
+            <div class="popup-row"><b>ที่อยู่สำนักงาน:</b> <span id="popupAddress"></span></div>
+            <div class="popup-row"><b>ไลน์:</b> <span id="popupLine"></span></div>
+            <div class="popup-row"><b>อายุ / เพศ:</b> <span id="popupAge"></span></div>
+            <button class="popup-close-btn" id="popupCloseBtn">ปิด</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('popupOverlay');
+    const imgEl = document.getElementById('popupImg');
+    const nameEl = document.getElementById('popupName');
+    const posEl = document.getElementById('popupPosition');
+    const phoneEl = document.getElementById('popupPhone');
+    const deptEl = document.getElementById('popupDept');
+    const emailEl = document.getElementById('popupEmail');
+    const addrEl = document.getElementById('popupAddress');
+    const lineEl = document.getElementById('popupLine');
+    const ageEl = document.getElementById('popupAge');
+    const closeBtn = document.getElementById('popupCloseBtn');
+    const closeX = document.getElementById('popupCloseX');
+
+    // คลิกที่รูปทุกใบใน .card
+    document.querySelectorAll('.card img').forEach(img => {
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const card = img.closest('.card');
+            if (!card) return;
+
+            const nameNode = card.querySelector('.name');
+            const posNode = card.querySelector('.position');
+
+            // ดึงข้อมูลและกำหนดให้ Popup
+            imgEl.src = img.src; // ใช้รูปหลัก ณ ตอนคลิก
+            nameEl.textContent = nameNode ? nameNode.textContent.trim() : 'ไม่ทราบชื่อ';
+            posEl.textContent = posNode ? posNode.textContent.trim() : '-';
+            phoneEl.textContent = card.dataset.phone || '-';
+            deptEl.textContent = card.dataset.dept || '-';
+            emailEl.textContent = card.dataset.email || '-';
+            addrEl.textContent = card.dataset.address || '-';
+            lineEl.textContent = card.dataset.line || '-';
+            ageEl.textContent = card.dataset.age || '-';
+
+            // แสดง Popup
+            overlay.style.display = 'flex';
+        });
+    });
+
+    function closePopup() {
+        overlay.style.display = 'none';
+    }
+
+    // ปิดด้วยปุ่ม 'ปิด'
+    closeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closePopup();
+    });
+
+    // ปิดด้วยปุ่ม 'X'
+    closeX.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closePopup();
+    });
+
+    // ปิดด้วยการคลิกนอกกล่อง (overlay)
+    overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            closePopup();
+        }
+    });
+});
+</script>
+
+</body>
+</html>

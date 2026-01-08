@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>แผนกโครงข่าย – อัตรากำลัง</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+        margin: 0;
+        font-family: 'Inter', Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+        background: #fff8d6;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 270px;
+        background: #f5c400;
+        color: #000;
+        padding: 20px 0;
+        overflow-y: auto;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+        z-index: 10;
+    }
+
+    .logo-box {
+        text-align: center;
+        padding: 15px 0 10px;
+    }
+
+    .logo-box img {
+        width: 120px;
+        height: auto;
+    }
+
+    .menu-title {
+        padding: 12px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        background: #e0b200;
+        margin-bottom: 5px;
+        color: #000;
+    }
+
+    .menu-item, .submenu-item {
+        padding: 10px 22px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.2s;
+    }
+
+    .menu-item.active, .submenu-item.active {
+        background: #ffdd4d;
+        font-weight: 600;
+    }
+    
+    .menu-item:hover, .submenu-item:hover {
+        background: #ffdd4d;
+    }
+
+    .submenu {
+        padding-left: 35px;
+        font-size: 14px;
+        display: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* --- Content Area Styling --- */
+    .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+        padding: 50px 20px 50px 20px;
+        overflow-y: auto;
+    }
+
+    /* Container ภายในสำหรับเนื้อหาหลัก เพื่อจำกัดความกว้างและจัดชิดซ้าย */
+    .content-container {
+        width: 100%;
+        max-width: 900px;
+        text-align: left;
+    }
+
+    .content h1 {
+        font-size: 36px;
+        font-weight: 600;
+        margin-bottom: 35px;
+        text-align: center;
+    }
+
+    .content-container h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-top: 35px;
+        margin-bottom: 15px;
+        color: #8c7300;
+        border-bottom: 2px solid #ffdd4d;
+        padding-bottom: 5px;
+        text-align: left;
+    }
+
+    .content-container p {
+        font-size: 18px;
+        margin-bottom: 20px;
+        line-height: 1.6;
+        text-align: left;
+    }
+
+    /* สไตล์สำหรับ <ol> ที่นำมาจากโค้ดแรก */
+    .content-container ol {
+        text-align: left;
+        max-width: 700px;
+        margin: 0 auto 20px 0; /* ปรับ margin ให้ชิดซ้าย */
+        padding-left: 30px; /* เพิ่ม padding-left ให้หัวข้อ */
+        line-height: 1.8;
+        font-size: 17px;
+        list-style: decimal; /* ใช้ตัวเลข */
+    }
+
+    .content-container ol li strong {
+        color: #000;
+    }
+
+    .content-container ul {
+        margin: 0 0 25px 0;
+        padding-left: 0;
+        line-height: 1.8;
+        list-style: none;
+        font-size: 17px;
+    }
+
+    .content-container ul li {
+        padding-left: 15px;
+        position: relative;
+    }
+
+    .content-container ul li strong {
+        color: #000;
+    }
+
+    .content-container img {
+        display: block;
+        max-width: 400px;
+        width: 80%;
+        height: auto;
+        margin: 30px auto 10px auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+</style>
+</style>
+<style>
+@media (max-width:1024px){.sidebar{width:220px}.content{padding:30px 16px}}
+@media (max-width:768px){body{flex-direction:column}.sidebar{width:100%;padding:10px}.card{width:calc(50% - 16px)}img{max-width:100%}}
+@media (max-width:420px){.card{width:100%}}
+</style>
+</head>
+<body>
+    
+    
+
+<div class="sidebar">
+    <div class="logo-box">
+        <img src="image1/logo.png" alt="Logo ศูนย์วิศวกรรมสื่อสารข้อมูลและการกำลัง">
+    </div>
+
+    <div class="menu-title">ศูนย์วิศวกรรมสื่อสารข้อมูลและการกำลัง</div>
+    <div id="menuContainer"></div>
+</div>
+
+<div class="content">
+    
+    <div class="content-container">
+        <h1>อัตรากำลัง</h1>
+
+        <h2>อัตรากำลังและหน้าที่งาน ศูนย์วิศวกรรมสื่อสารข้อมูลและการกำลัง พนักงาน บทจ.โทรคมนาคมแห่งชาติ</h2>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse: collapse; font-size:16px;">
+<thead style="background:#ffe58a; font-weight:600;">
+<tr>
+    <th>ลำดับที่</th>
+    <th>รหัสพนักงาน</th>
+    <th>ชื่อ-นามสกุล</th>
+    <th>ตำแหน่ง</th>
+    <th>หน้าที่รับผิดชอบ</th>
+    <th>โทรศัพท์เคลื่อนที่</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>13814149</td><td>นายกำพล อิ่มรัตนกุล</td><td>นักปฏิบัติการช่างเทคนิค 7</td><td>ผู้จัดการศูนย์วิศวกรรมโครงข่าย</td><td>086-864-6303</td></tr>
+<tr><td>2</td><td>13817876</td><td>นายบรรพจน์ พันธุ์รักษ์</td><td>นายช่างเทคนิค 6</td><td>แผนงานงบประมาณ, ข้อมูลแบบข่ายสาย,ข้อมูลข่ายสายในระบบ</td><td>084-400-4993</td></tr>
+<tr><td>3</td><td>13819567</td><td>นายชุมพล ศิลาสิทธิ์</td><td>นักปฏิบัติการช่างเทคนิค 6</td><td>งานบำรุงรักษาข่ายสาย, ควบคุมงาน,ประสานงานหน่วยงานภายนอก</td><td>081-264-5023</td></tr>
+<tr><td>4</td><td>13902627</td><td>นายอาทิตย์ ฆารเจริญ</td><td>นายช่างเทคนิค 5</td><td>งานบำรุงรักษาข่ายสาย, ควบคุมงาน,ประสานงานหน่วยงานภายนอก</td><td>084-796-4355</td></tr>
+<tr><td>5</td><td>01000210</td><td>นายอรรถพล หงษ์ทอง</td><td>นายช่างโทรคมนาคม 5</td><td>งานปรับปรุง-ซ่อมแซมข่ายสายเคเบิล Spure root และ ODN</td><td>086-450-1464</td></tr>
+<tr><td>6</td><td>14401020</td><td>นางสาวยุพิน โลตุรัตน์</td><td>นักปฏิบัติการบริหารงานทั่วไป 5</td><td>งานสินทรัพย์, พัสดุอุปกรณ์ตัดตอนนอก และงานธุรการ</td><td>086-647-0978</td></tr>
+<tr><td>7</td><td>25700015</td><td>นายวรพันธ์ บูรณะพล</td><td>นายช่างชำนาญงาน</td><td>งานปรับปรุง-ซ่อมแซมข่ายสายเคเบิล Spure root และ ODN</td><td>089-277-5218</td></tr>
+<tr><td>8</td><td>25901958</td><td>นายสามารถ ภูพลผัน</td><td>นายช่างชำนาญงาน</td><td>งานปรับปรุง-ซ่อมแซมข่ายสายเคเบิล Spure root และ ODN</td><td>091-925-5598</td></tr>
+</tbody>
+</table>
+
+
+<h2>อัตรากำลังและหน้าที่งาน ศูนย์วิศวกรรมสื่อสารข้อมูลและการกำลัง พนักงาน Outsource</h2>
+
+<table border="1" cellpadding="8" cellspacing="0" style="width:100%; border-collapse: collapse; font-size:16px;">
+<thead style="background:#ffe58a; font-weight:600;">
+<tr>
+    <th>ลำดับที่</th>
+    <th>รหัสพนักงาน</th>
+    <th>ชื่อ-นามสกุล</th>
+    <th>ตำแหน่ง</th>
+    <th>หน้าที่รับผิดชอบ</th>
+    <th>โทรศัพท์เคลื่อนที่</th>
+</tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>45901014</td><td>นางสาวธนาภรณ์ อิ่มเจริญ</td><td>เจ้าหน้าที่รับแจ้งเหตุเสีย</td><td>รับแจ้งเหตุเสีย 1177 / จำงาน-ติดตามเหตุเสีย</td><td>082-2925214</td></tr>
+<tr><td>2</td><td>46300352</td><td>นางสาวอรุมา ภูใบบัง</td><td>เจ้าหน้าที่รับแจ้งเหตุเสีย</td><td>รับแจ้งเหตุเสีย 1177 / จำงาน-ติดตามเหตุเสีย</td><td>097-8531686</td></tr>
+<tr><td>3</td><td>46200599</td><td>นายวีระ ฆารดา</td><td>ช่างเทคนิค</td><td>งานปรับปรุง-ซ่อมแซมข่ายสายเคเบิล Spure root และ ODN</td><td>088-342959</td></tr>
+<tr><td>4</td><td>46300767</td><td>นายนัฐการณ์ ภูนาใบ</td><td>ช่างเทคนิค</td><td>งานปรับปรุง-ซ่อมแซมข่ายสายเคเบิล Spure root และ ODN</td><td>–</td></tr>
+<tr><td>5</td><td>46300777</td><td>นายอชิตพล นันทญากรกุล</td><td>ช่างเทคนิค</td><td>งานปรับปรุง-ซ่อมแซมข่ายสายเคเบิล Spure root และ ODN</td><td>–</td></tr>
+<tr><td>6</td><td>46300769</td><td>นายวาที ตละแก้ว</td><td>ช่างเทคนิค</td><td>งานปรับปรุง-ซ่อมแซมข่ายสายเคเบิล Spure root และ ODN</td><td>084-7958601</td></tr>
+<tr><td>7</td><td>B24060038</td><td>นายวรวิทย์ กาลวิไล</td><td>ช่างเทคนิค</td><td>งานปรับปรุง-ซ่อมแซมข่ายสายเคเบิล Spure root และ ODN</td><td>–</td></tr>
+</tbody>
+</table>
+
+    </div>
+</div>
+
+<script>
+// *** Script ที่รวม menuData และ logic การ Active เมนู ***
+
+const menuData = {
+     "sidebarMenu": [
+    { "title": "หน้าแรก", "path": "../App_nt.1/index.html" },
+ {
+      "title": "โครงสร้างแผนก",
+      "children": [
+        { "title": "อัตรากำลัง", "path": "AA1.html" },
+        { "title": "หน้าที่บุคลากร", "path": "AA2.html" },
+        { "title": "ทำเนียบบุคลากร", "path": "AA3.html" }
+      ]
+    },
+    {
+      "title": "งานที่รับผิดชอบ",
+      "children": [
+        { "title": "โครงข่าย", "path": "BB1.html" },
+        { "title": "ใบสั่งงาน", "path": "BB2.html" },
+        { "title": "ตารางบำรุงรักษา", "path": "BB3.html" },
+        { "title": "Outside plan map (OPM) ", "path": "BB4.html" },
+        { "title": "ความปลอดภัย อาชีวอนามัย", "path": "\B5.html" }
+      ]
+    },
+    {
+      "title": "แจ้งเหตุเสีย/1888",
+      "children": [
+        { "title": "Scoms", "path": "/ticket/new" },
+        { "title": "Umbo", "path": "/ticket/status" }
+      ]
+    },
+    
+    { "title": "ติดต่อ", "path": "E1.html" }
+]
+};
+
+const container = document.getElementById("menuContainer");
+// ‼️ ระบุ path ของไฟล์นี้ (เช่น "A1.html") เพื่อให้เมนู Active
+const currentPath = "AA1.html"; 
+
+menuData.sidebarMenu.forEach(menu => {
+    const item = document.createElement("div");
+    item.className = "menu-item";
+    
+    const isExactMatch = currentPath === menu.path;
+    let hasActiveSubmenu = false;
+
+    if (!menu.children) {
+        item.innerHTML = `<a href="${menu.path}">${menu.title}</a>`;
+        if (isExactMatch) {
+            item.classList.add('active');
+        }
+        container.appendChild(item);
+        return;
+    }
+
+    item.textContent = menu.title;
+
+    const submenu = document.createElement("div");
+    submenu.className = "submenu";
+
+    menu.children.forEach(sub => {
+        const subItem = document.createElement("div");
+        subItem.className = "submenu-item";
+        
+        // ตรวจสอบเมนูย่อย: ถ้า sub.path ตรงกับ currentPath
+        if (sub.path === currentPath) {
+            subItem.classList.add('active');
+            hasActiveSubmenu = true;
+        }
+        
+        subItem.innerHTML = `<a href="${sub.path}">• ${sub.title}</a>`;
+        submenu.appendChild(subItem);
+    });
+    
+    // ถ้ามีเมนูย่อยที่ Active ให้เปิด Submenu ไว้และเน้นเมนูหลัก
+    if (hasActiveSubmenu) {
+        submenu.style.display = "block";
+        item.classList.add('active'); 
+    }
+
+    item.onclick = () => {
+        submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+    };
+
+    container.appendChild(item);
+    container.appendChild(submenu);
+});
+</script>
+
+</body>
+</html>

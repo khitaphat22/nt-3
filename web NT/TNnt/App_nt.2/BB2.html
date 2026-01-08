@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>แผนกโครงข่าย – หน้าที่ความรับผิดชอบ</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+        margin: 0;
+        font-family: 'Inter', Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+        background: #fff8d6;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 270px;
+        background: #f5c400;
+        color: #000;
+        padding: 20px 0;
+        overflow-y: auto;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+        z-index: 10;
+    }
+
+    .logo-box {
+        text-align: center;
+        padding: 15px 0 10px;
+    }
+
+    .logo-box img {
+        width: 120px;
+        height: auto;
+    }
+
+    .menu-title {
+        padding: 12px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        background: #e0b200;
+        margin-bottom: 5px;
+        color: #000;
+    }
+
+    .menu-item, .submenu-item {
+        padding: 10px 22px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.2s;
+    }
+
+    .menu-item.active, .submenu-item.active {
+        background: #ffdd4d;
+        font-weight: 600;
+    }
+
+    .menu-item:hover, .submenu-item:hover {
+        background: #ffdd4d;
+    }
+
+    .submenu {
+        padding-left: 35px;
+        font-size: 14px;
+        display: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* Content area */
+    .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 30px;
+        overflow-y: auto;
+    }
+
+    /* Excel Viewer */
+    .excel-viewer {
+        width: 100%;
+        max-width: 1200px;
+        height: 85vh;
+        margin: auto;
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .excel-viewer iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+
+</style>
+</style>
+<style>
+@media (max-width:1024px){.sidebar{width:220px}.content{padding:30px 16px}}
+@media (max-width:768px){body{flex-direction:column}.sidebar{width:100%;padding:10px}.card{width:calc(50% - 16px)}img{max-width:100%}}
+@media (max-width:420px){.card{width:100%}}
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <div class="logo-box">
+        <img src="image1\logo.png" alt="Logo ศูนย์วิศวกรรมสื่อสารข้อมูลและการกำลัง">
+    </div>
+
+    <div class="menu-title">ศูนย์วิศวกรรมสื่อสารข้อมูลและการกำลัง</div>
+    <div id="menuContainer"></div>
+</div>
+
+<!-- Content -->
+<div class="excel-viewer"> 
+    <iframe 
+        src="https://docs.google.com/spreadsheets/d/1nbGlm8vnFGU3XzKk9eHa8PnwrtYS87Rt/edit?gid=2014393884#gid=2014393884">
+    </iframe> 
+</div>
+
+
+<script>
+    
+const menuData = {
+     "sidebarMenu": [
+    { "title": "หน้าแรก", "path": "../App_nt.1/index.html" },
+{
+      "title": "โครงสร้างแผนก",
+      "children": [
+        { "title": "อัตรากำลัง", "path": "AA1.html" },
+        { "title": "หน้าที่บุคลากร", "path": "AA2.html" },
+        { "title": "ทำเนียบบุคลากร", "path": "AA3.html" }
+      ]
+    },
+    {
+      "title": "งานที่รับผิดชอบ",
+      "children": [
+        { "title": "โครงข่าย", "path": "BB1.html" },
+        { "title": "ใบสั่งงาน", "path": "BB2.html" },
+        { "title": "ตารางบำรุงรักษา", "path": "BB3.html" },
+        { "title": "Outside plan map (OPM) ", "path": "BB4.html" },
+        { "title": "ความปลอดภัย อาชีวอนามัย", "path": "\B5.html" }
+      ]
+    },
+    
+    {
+      "title": "แจ้งเหตุเสีย/1888",
+      "children": [
+        { "title": "Scoms", "path": "/ticket/new" },
+        { "title": "Umbo", "path": "/ticket/status" }
+      ]
+    },
+    
+    { "title": "ติดต่อ", "path": "E1.html" }
+  ]
+};
+
+const container = document.getElementById("menuContainer");
+const currentPath = window.location.pathname.replace(/\/$/, "");
+
+menuData.sidebarMenu.forEach(menu => {
+    const item = document.createElement("div");
+    item.className = "menu-item";
+
+    if (menu.path && currentPath.endsWith(menu.path.replace(/\./g, ''))) {
+        item.classList.add('active');
+    }
+
+    if (!menu.children) {
+        item.innerHTML = `<a href="${menu.path}">${menu.title}</a>`;
+        container.appendChild(item);
+        return;
+    }
+
+    item.textContent = menu.title;
+
+    const submenu = document.createElement("div");
+    submenu.className = "submenu";
+    let hasActiveSubmenu = false;
+
+    menu.children.forEach(sub => {
+        const subItem = document.createElement("div");
+        subItem.className = "submenu-item";
+
+        if (currentPath.endsWith(sub.path)) {
+            subItem.classList.add('active');
+            hasActiveSubmenu = true;
+        }
+
+        subItem.innerHTML = `<a href="${sub.path}">• ${sub.title}</a>`;
+        submenu.appendChild(subItem);
+    });
+
+    if (hasActiveSubmenu) {
+        submenu.style.display = "block";
+        item.classList.add('active');
+    }
+
+    item.onclick = () => {
+        submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+    };
+
+    container.appendChild(item);
+    container.appendChild(submenu);
+});
+</script>
+
+</body>
+</html>

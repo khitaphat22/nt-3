@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>แผนกโครงข่าย – Dashboard</title>
+
+<style>  
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+      background: #fff8d6 url('image/nt2.png') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 270px;
+        background: #f5c400;
+        color: #000;
+        padding: 20px 0;
+        overflow-y: auto;
+      box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+      position: relative; /* allow positioning logout at bottom */
+    }
+
+    .logo-box {
+        text-align: center;
+        padding: 15px 0 10px;
+    }
+
+    .logo-box img {
+        width: 120px;
+        height: auto;
+    }
+
+    .menu-title, .menu-item, .submenu-item {
+        padding: 10px 22px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.2s;
+    }
+
+    /* เพิ่มระยะห่างหัวข้อ */
+    .menu-title {
+      display: block;
+      box-sizing: border-box;
+      font-size: 18px;
+      font-weight: bold;
+      background: #e0b200;
+      margin-top: 18px;
+    }
+    .menu-title:first-of-type {
+        margin-top: 0;
+    }
+
+    .menu-item:hover, .submenu-item:hover {
+        background: #ffdd4d;
+    }
+
+    .submenu {
+        padding-left: 35px;
+        display: none;
+        font-size: 14px;
+    }
+
+    .logout-link{
+  position: fixed;
+  bottom: 14px;
+  left: 12px;
+  width: 246px; /* 270 - padding */
+  padding: 10px 22px;
+  background: #e0b200;
+  z-index: 999;
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.15);
+}
+
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .content {
+        flex: 1;
+        padding: 25px;
+      text-align: center;
+      color: #f5c400; /* เปลี่ยนสีตัวหนังสือเป็นสีเหลือง */
+    }
+
+    .content img {
+        width: 80%;
+        max-width: 600px;
+        margin-top: 20px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+/* Responsive - Mobile & Tablet */
+@media (max-width: 1024px) {
+    .sidebar { width: 220px; }
+    .content { padding: 20px; }
+}
+
+@media (max-width: 768px) {
+    body { flex-direction: column; height: auto; }
+    .sidebar { width: 100%; position: relative; padding: 15px 10px; }
+    .logo-box img { width: 100px; }
+    .menu-title, .menu-item, .submenu-item { font-size: 14px; padding: 8px 12px; }
+    .content { padding: 15px 10px; }
+    .logout-link { position: static; width: 100%; margin-top: 15px; }
+}
+
+@media (max-width: 420px) {
+    .menu-title, .menu-item, .submenu-item { font-size: 13px; }
+    .logo-box img { width: 80px; }
+}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo-box">
+        <img src="image/logo.png" alt="Logo ศูนย์วิศวกรรมโครงข่าย">
+    </div>
+
+    <a class="menu-title" id="mainMenu6" href="TN.html">ทำเนียบผู้บริหาร</a>
+    <div id="menuContainer6" class="submenu"></div>
+
+    <div class="menu-title" id="mainMenu">ศูนย์วิศวกรรมโครงข่าย</div>
+    <div id="menuContainer" class="submenu"></div>
+
+    <div class="menu-title" id="mainMenu2">ศูนย์วิศวกรรมสื่อสารข้อมูลและการกำลัง</div>
+    <div id="menuContainer2" class="submenu"></div>
+
+    <!-- หัวข้อใหม่ -->
+    <div class="menu-title" id="mainMenu3">ศูนย์การขาย ติดตามหนี้และวิศวกรรมบริการ</div>
+    <div id="menuContainer3" class="submenu"></div>
+
+    <div class="menu-title" id="mainMenu4">ศูนย์สนับสนุน</div>
+    <div id="menuContainer4" class="submenu"></div>
+
+    <a class="menu-title logout-link" id="mainMenu5" href="login.html">ออกจากระบบ</a>
+    <div id="menuContainer5" class="submenu"></div>
+
+</div>
+    
+<div class="content">
+    <p></p>
+    <img src="" alt="">
+    <h1></h1>
+    <h1></h1>
+</div>
+
+<script>
+// ------------------------- เมนู Template ของศูนย์วิศวกรรมโครงข่าย -------------------------
+const menuTemplate = [
+    {
+      "title": "โครงสร้างแผนก",
+      "children": [
+        { "title": "อัตรากำลัง", "path": "A1.html" },
+        { "title": "หน้าที่บุคลากร", "path": "A2.html" },
+        { "title": "ทำเนียบบุคลากร", "path": "A3.html" }
+      ]
+    },
+    {
+      "title": "งานที่รับผิดชอบ",
+      "children": [
+        { "title": "โครงข่าย", "path": "B1.html" },
+        { "title": "ใบสั่งงาน", "path": "B2.html" },
+        { "title": "ติดตามงาน", "path": "B3.html" },
+        { "title": "Outside plan map (OPM) ", "path": "B4.html" },
+        { "title": "ด้านความปลอดภัย", "path": "\B5.html" }
+      ]
+    },
+     {
+      "title": "แจ้งเหตุเสีย/1888",
+      "children": [
+        { "title": "Scoms", "path": "/ticket/new" },
+        { "title": "Umbo", "path": "/ticket/status" }
+      ]
+    },
+  
+    { "title": "ติดต่อ", "path": "E1.html" }
+];
+
+// ------------------------- เมนู Template ศูนย์วิศวกรรมสื่อสารข้อมูลและการกำลัง -------------------------
+const menuTemplate2 = [
+    {
+      "title": "โครงสร้างแผนก",
+      "children": [
+        { "title": "อัตรากำลัง", "path": "../App_nt.2/AA1.html" },
+        { "title": "หน้าที่บุคลากร", "path": "../App_nt.2/AA2.html" },
+        { "title": "ทำเนียบบุคลากร", "path": "../App_nt.2/AA3.html" }
+      ]
+    },
+    {
+      "title": "งานที่รับผิดชอบ",
+      "children": [
+        { "title": "โครงข่าย", "path": "../App_nt.2/BB1.html" },
+        { "title": "ใบสั่งงาน", "path": "../App_nt.2/BB2.html" },
+        { "title": "ติดตามงาน", "path": "../App_nt.2/BB3.html" },
+        { "title": "Outside plan map (OPM) ", "path": "../App_nt.2/BB4.html" },
+        { "title": "ด้านความปลอดภัย", "path": "\B5.html" }
+      ]
+    },
+     {
+      "title": "แจ้งเหตุเสีย/1888",
+      "children": [
+        { "title": "Scoms", "path": "/ticket/new" },
+        { "title": "Umbo", "path": "/ticket/status" }
+      ]
+    },
+  
+    { "title": "ติดต่อ", "path": "E1.html" }
+];
+
+// ------------------------- เมนู ศูนย์การขาย ติดตามหนี้และวิศวกรรมบริการ -------------------------
+const menuTemplate3 = [
+    {
+      "title": "งานติดตั้ง",
+      "children": [
+        { "title": "ติดตั้งอุปกรณ์ FTTx", "path": "F1.html" },
+        { "title": "ติดตั้งวงจรเช่า", "path": "F2.html" }
+      ]
+    },
+    {
+      "title": "งานตรวจสอบ",
+      "children": [
+        { "title": "ตรวจสอบสัญญาณ", "path": "F3.html" },
+        { "title": "ตรวจสอบอุปกรณ์", "path": "F4.html" }
+      ]
+    }
+];
+
+// ------------------------- เมนู Template ของงานวิเคราะห์ข้อมูลเครือข่าย -------------------------
+const menuTemplate4 = [
+    {
+      "title": "รายงานข้อมูล",
+      "children": [
+        { "title": "สถิติอุปกรณ์ขัดข้อง", "path": "D1.html" },
+        { "title": "สถิติลูกค้าใช้งาน", "path": "D2.html" }
+      ]
+    },
+    {
+      "title": "แดชบอร์ด",
+      "children": [
+        { "title": "Dashboard เครือข่าย", "path": "Dash1.html" },
+        { "title": "Dashboard ลูกค้า", "path": "Dash2.html" }
+      ]
+    }
+];
+
+// ------------------------- เมนู Template สำหรับ บัญชี/ออกจากระบบ -------------------------
+const menuTemplate5 = [
+    {
+      title: "บัญชีผู้ใช้",
+      children: [
+        { title: "ข้อมูลโปรไฟล์", path: "profile.html" },
+        { title: "ตั้งค่าบัญชี", path: "settings.html" }
+      ]
+    },
+    { title: "ออกจากระบบ", path: "logout.html" }
+];
+
+
+
+// ------------------------- ฟังก์ชันสร้างเมนู -------------------------
+function buildMenu(containerId, menuData) {
+    const container = document.getElementById(containerId);
+
+    menuData.forEach(menu => {
+        const item = document.createElement("div");
+        item.className = "menu-item";
+
+        // ถ้ามี children ให้เป็น dropdown
+        if (menu.children && menu.children.length > 0) {
+            item.textContent = menu.title;
+
+            const submenu = document.createElement("div");
+            submenu.className = "submenu";
+
+            menu.children.forEach(sub => {
+                const subItem = document.createElement("div");
+                subItem.className = "submenu-item";
+                subItem.innerHTML = `<a href="${sub.path}">• ${sub.title}</a>`;
+                submenu.appendChild(subItem);
+            });
+
+            item.onclick = () => {
+                submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+            };
+
+            container.appendChild(item);
+            container.appendChild(submenu);
+
+        } else if (menu.path) {
+            // เมนูที่ไม่มี children แต่มี path เช่น "ติดต่อ"
+            item.innerHTML = `<a href="${menu.path}">${menu.title}</a>`;
+            container.appendChild(item);
+        }
+    });
+}
+
+
+// ------------------------- แสดง/ซ่อนเมนู -------------------------
+document.getElementById("mainMenu").onclick = () => {
+    const container = document.getElementById("menuContainer");
+    container.style.display = container.style.display === "block" ? "none" : "block";
+};
+
+document.getElementById("mainMenu2").onclick = () => {
+    const container = document.getElementById("menuContainer2");
+    container.style.display = container.style.display === "block" ? "none" : "block";
+};
+
+document.getElementById("mainMenu3").onclick = () => {
+    const container = document.getElementById("menuContainer3");
+    container.style.display = container.style.display === "block" ? "none" : "block";
+};
+
+document.getElementById("mainMenu4").onclick = () => {
+    const container = document.getElementById("menuContainer4");
+    container.style.display = container.style.display === "block" ? "none" : "block";
+};
+
+// `mainMenu5` is a direct link to the login page; no toggle handler needed.
+
+// ------------------------- สร้างเมนู -------------------------
+buildMenu("menuContainer", menuTemplate);
+buildMenu("menuContainer2", menuTemplate2);
+buildMenu("menuContainer3", menuTemplate3);
+buildMenu("menuContainer4", menuTemplate4);
+buildMenu("menuContainer5", menuTemplate5);
+buildMenu("menuContainer6", menuTemplate6);
+</script>
+  
+</body>
+</html>

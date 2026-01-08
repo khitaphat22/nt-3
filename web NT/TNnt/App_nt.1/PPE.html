@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PPE – อุปกรณ์ป้องกันส่วนบุคคล</title>
+<style>
+  :root{
+    --bg:#fff8d6; --accent:#8c7300; --muted:#6b5b2e; --card:#fffbe8;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; font-family:Inter,system-ui,Segoe UI,Arial; background:var(--bg); color:#2b2b2b;
+    padding:28px;
+  }
+  header{max-width:1200px;margin:0 auto 22px;text-align:center}
+  header h1{color:var(--accent); margin:0 0 6px; font-size:28px}
+  header p{margin:0;color:var(--muted); font-size:14px}
+
+  .wrap{max-width:1200px;margin:20px auto; display:flex; gap:28px; align-items:flex-start}
+
+  /* left: overview / hero */
+  .ppe-fullscreen{
+    flex:1 1 480px;
+    min-width:320px;
+    border-radius:12px;
+    padding:22px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
+    box-shadow:0 8px 30px rgba(0,0,0,0.06);
+  }
+  .hero{
+    display:flex;
+    gap:28px;
+    align-items:center;    /* จัดกึ่งกลางแนวตั้งของภาพกับข้อความ */
+    justify-content:center;/* จัดกึ่งกลางแนวนอนเมื่อมีพื้นที่ว่าง */
+    flex-wrap:wrap;
+  }
+  .hero .hero-image{
+    width:100%;
+    max-width:800px;   /* กว้างขึ้น */
+    height:1100px;      /* ยืดความยาวอีกขั้น */
+    border-radius:12px; overflow:hidden; flex:0 0 900px;
+    margin:0 auto;     /* อยู่กลางกรอบข้อมูล */
+    border:4px solid #fff; box-shadow:0 6px 18px rgba(0,0,0,0.08);
+  }
+  .hero .hero-image img{width:100%;height:100%;object-fit:cover;display:block; object-position:center center;}
+  .hero .hero-text{flex:1; min-width:180px}
+  .hero h2{margin:0 0 6px;color:var(--muted)}
+  .hero p{margin:0;color:#333;line-height:1.45}
+
+  .ppe-info{margin-top:18px}
+  .ppe-info h3{margin:12px 0 8px;color:var(--accent)}
+  .ppe-info p{margin:8px 0;color:#444; font-size:14px; line-height:1.5}
+
+  /* right: grid of items */
+  .ppe-grid{width:320px; flex:0 0 320px; min-width:260px; display:flex; flex-direction:column; gap:14px}
+  .ppe-card{
+    background:var(--card);
+    border-left:6px solid #e0b200;
+    padding:0;
+    border-radius:12px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.06);
+    overflow:hidden;
+    display:block; /* ปรับเป็นบล็อกเพื่อให้รูปเต็มกรอบ */
+  }
+
+  /* รูปเต็มกรอบและ overlay ข้อมูล */
+  .ppe-card .thumb{
+    position:relative;
+    width:100%;
+    height:80px;   /* ใหม่: เล็กลงทั้งความสูง */
+    overflow:hidden;
+    flex:unset;
+  }
+  .ppe-card .thumb img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .ppe-card .thumb .caption{
+    position:absolute;
+    left:0; right:0; bottom:0;
+    padding:14px 16px;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.46) 100%);
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .ppe-card .thumb .caption h4{
+    margin:0;font-size:16px;font-weight:700;
+  }
+  .ppe-card .thumb .caption p{ margin:0;font-size:13px; color:rgba(255,255,255,0.92); }
+
+  /* meta (คำอธิบายนอกภาพ) */
+  .ppe-card .meta{
+    padding:12px 16px;
+  }
+  .ppe-card .meta p{ margin:0;color:#333;font-size:13px }
+  .ppe-card .meta small{ display:block;margin-top:8px;color:#777;font-size:12px }
+
+  /* responsive: ลดความสูงของภาพ */
+  @media (max-width:1000px){
+    .ppe-card .thumb{ height:64px; } /* จอกลาง */
+    .ppe-grid{width:280px; flex:0 0 280px;}
+  }
+  @media (max-width:640px){
+    .ppe-card .thumb{ height:48px; } /* มือถือ */
+    .ppe-grid{width:100%; flex:unset;}
+  }
+
+  /* responsive */
+  @media (max-width:1000px){
+    .wrap{padding:0 10px; gap:18px; flex-direction:column}
+    .ppe-grid{width:100%; flex:unset}
+    /* ลดขนาดฮีโร่บนหน้าจอเล็กลงให้ดูสวยงาม */
+    .hero .hero-image { width:100%; height:480px; flex:0 0 auto; margin:14px auto; }
+  }
+  @media (max-width:640px){
+    .hero .hero-image { width:100%; height:260px; flex:0 0 auto; margin:10px auto; }
+  }
+
+  /* modal styles */
+  .ppe-modal{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:1200;}
+  .ppe-modal[aria-hidden="false"]{ display:flex; }
+  .ppe-modal-backdrop{ position:absolute; inset:0; background:rgba(6,10,18,0.48); backdrop-filter:blur(2px); }
+  .ppe-modal-panel{
+    position:relative;
+    /* ขยายขนาดหน้าต่างป็อปอัพ */
+    width: min(1100px, 96%);
+    max-width: 1100px;
+    border-radius:12px;
+    overflow:hidden;
+    z-index:2;
+    box-shadow:0 28px 80px rgba(0,0,0,0.40);
+    background:#fff;
+    transform:translateY(10px);
+    transition:transform .18s ease, opacity .12s ease;
+  }
+  .ppe-modal[aria-hidden="false"] .ppe-modal-panel{ transform:none; }
+  .ppe-modal-close{ position:absolute; right:10px; top:8px; border:0; background:transparent; font-size:28px; line-height:1; color:#333; cursor:pointer; z-index:4; padding:6px 10px; }
+  .ppe-modal-body{ display:flex; gap:18px; padding:24px; align-items:flex-start; } /* เพิ่ม padding ให้ช่องข้อมูลกว้างขึ้น */
+  .ppe-modal-image{
+    /* ขยายพื้นที่รูปใน modal */
+    width:520px;
+    max-width:48%;
+    height:420px;
+    overflow:hidden;
+    border-radius:8px;
+    flex:0 0 520px;
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,0.02);
+  }
+  .ppe-modal-image img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .ppe-modal-info{ flex:1; padding:8px 6px; display:flex; flex-direction:column; gap:8px; }
+  .ppe-modal-info h3{ margin:0; font-size:24px; color:#212121; } /* เพิ่มขนาดหัวข้อ */
+  .ppe-modal-info p{ margin:0; color:#333; line-height:1.45; }
+  .ppe-modal-info .muted{ color:#666; margin-top:8px; }
+  .ppe-modal-info small{ display:block; color:#777; margin-top:10px; }
+
+  /* responsive */
+  @media (max-width:900px){
+    .ppe-modal-body{ flex-direction:column; align-items:center; }
+    /* ย่อ modal บนหน้าจอเล็ก */
+    .ppe-modal-image{ width:100%; height:280px; max-width:100%; flex:0 0 auto; }
+    .ppe-modal-panel{ width:96%; max-width:96%; }
+  }
+
+
+.ppe-card .meta a.ppe-link{
+  display:inline-block;
+  margin-top:8px;
+  font-size:13px;
+  color:#005baa;
+  text-decoration:none;
+  font-weight:600;
+}
+.ppe-card .meta a.ppe-link:hover{
+  text-decoration:underline;
+}
+
+.hero-video {
+    padding: 25px 10px;
+    text-align: center;
+    background: #fff8d6;
+}
+
+.hero-video h2 {
+    color: #8c7300;
+    font-size: 26px;
+    margin-bottom: 15px;
+}
+
+
+/* ปุ่มกลับ */
+.back{
+    display:inline-block;
+    margin-top:30px;
+    background:#d5b000;
+    color:#000;
+    padding:10px 25px;
+    border-radius:8px;
+    font-weight:bold;
+    text-decoration:none;
+    transition:.25s;
+}
+.back:hover{
+    background:#ffe25f;
+}
+
+</style>
+</style>
+<style>
+@media (max-width:1024px){.sidebar{width:220px}.content{padding:30px 16px}}
+@media (max-width:768px){body{flex-direction:column}.sidebar{width:100%;padding:10px}.card{width:calc(50% - 16px)}img{max-width:100%}}
+@media (max-width:420px){.card{width:100%}}</style>
+</head>
+<body>
+
+
+<header>
+  <h1>อุปกรณ์ป้องกันส่วนบุคคล (PPE)</h1>
+  <p>แนะนำประเภทการใช้งาน ข้อควรระวัง และตัวอย่างอุปกรณ์ยอดนิยม</p>
+</header>
+
+<main class="wrap">
+  <section class="ppe-fullscreen" aria-labelledby="overview-title">
+    <div class="hero">
+      <div class="hero-image">
+        <img src="image/ST91.jpg" alt="PPE overview">
+        
+      </div>
+
+      <div class="hero-text">
+        <h2 id="overview-title">PPE — ความปลอดภัยเริ่มที่อุปกรณ์</h2>
+        <p>อุปกรณ์ป้องกันส่วนบุคคล (PPE) ช่วยลดความเสี่ยงจากอุบัติเหตุและการสัมผัสสารอันตราย เลือกให้เหมาะสมกับงาน ตรวจสอบสภาพก่อนใช้ และฝึกฝนการใช้งานอย่างถูกต้อง</p>
+      </div>
+    </div>
+
+    <div class="ppe-info">
+      <h3>แนวทางการเลือกใช้งาน</h3>
+      <p>ประเมินความเสี่ยงของงานก่อนเลือก PPE และสวมใส่ให้พอดี สวมอุปกรณ์ป้องกันเสมอในบริเวณที่มีความเสี่ยง และเก็บรักษาอย่างเหมาะสมเพื่อยืดอายุการใช้งาน</p>
+
+      <h3>ข้อควรระวัง</h3>
+      <p>ไม่ใช้ PPE ที่ชำรุดหรือสกปรก รับคำแนะนำจากหัวหน้างานเมื่อทำงานในพื้นที่อันตราย และหากอุปกรณ์เปื้อนสารเคมี ให้ยกเลิกการใช้งานและจัดการตามมาตรฐาน</p>
+
+      <h3>ติดต่อ / ฝึกอบรม</h3>
+      <p>หน่วยความปลอดภัยจัดฝึกอบรมการใช้ PPE เป็นประจำ หากต้องการคำแนะนำเพิ่มเติมติดต่อทีมความปลอดภัยหรือหัวหน้างาน</p>
+    </div>
+
+    <!-- วิดีโอใต้ภาพใหญ่ -->
+<div class="hero-video">
+  <h2>วิดีโอแนะนำการใช้งาน PPE</h2>
+  <video src="image\ppe.mp4" controls
+         style="width:100%; max-width:900px; display:block; margin:20px auto; border-radius:12px;">
+  </video>
+</div>
+
+  </section>
+
+  <aside class="ppe-grid" aria-label="ตัวอย่าง PPE">
+
+  <div class="ppe-card">
+    <div class="thumb">
+      <img src="image/PPE7.jpg" alt="หมวกนิรภัย">
+      <div class="caption">
+        <h4>หมวกนิรภัย (Safety Helmet)</h4>
+        <p>ป้องกันศีรษะจากการกระทบและเศษของตก</p>
+      </div>
+    </div>
+    <div class="meta">
+      <p>เหมาะสำหรับงานก่อสร้างและโรงงาน — ตรวจสภาพ: รอยแตก/รอยบุบห้ามใช้</p>
+      <small>เก็บในที่แห้ง ห้ามโดนสารเคมี</small>
+      <a href="PDF\13.pdf" target="_blank" class="ppe-link">ดูข้อมูลเพิ่มเติม</a>
+    </div>
+  </div>
+
+  <div class="ppe-card">
+    <div class="thumb">
+      <img src="image/PPE5.jpg" alt="แว่นนิรภัย">
+      <div class="caption">
+        <h4>แว่นนิรภัย / หน้ากากใบหน้า</h4>
+        <p>ป้องกันดวงตาและใบหน้าจากเศษฝุ่น สารเคมี และละออง</p>
+      </div>
+    </div>
+    <div class="meta">
+      <p>เลือกชนิดที่เหมาะกับงาน</p>
+      <small>ทำความสะอาดและเก็บในที่ปลอดฝุ่น</small>
+      <a href="PDF\TIS-369-2539m.pdf" target="_blank" class="ppe-link">ดูข้อมูลเพิ่มเติม</a>
+    </div>
+  </div>
+
+  <div class="ppe-card">
+    <div class="thumb">
+      <img src="image/PPE1.jpg" alt="เครื่องป้องกันการได้ยิน">
+      <div class="caption">
+        <h4>ที่ครอบหู / ที่อุดหู</h4>
+        <p>ลดระดับเสียงเพื่อปกป้องการได้ยินในงานที่มีเสียงดัง</p>
+      </div>
+    </div>
+    <div class="meta">
+      <p>เลือกตามดัชนีการลดเสียง (SNR)</p>
+      <a href="PDF\Earplugs.pdf" target="_blank" class="ppe-link">ดูข้อมูลเพิ่มเติม</a>
+    </div>
+  </div>
+
+  <div class="ppe-card">
+    <div class="thumb">
+      <img src="image/PPE6.jpg" alt="หน้ากากกรองอากาศ">
+      <div class="caption">
+        <h4>หน้ากากกรองอากาศ / Respirator</h4>
+        <p>ป้องกันการสูดสารพิษ ฝุ่นละเอียด และละอองที่อาจเป็นอันตราย</p>
+      </div>
+    </div>
+    <div class="meta">
+      <p>เลือกประเภทและระดับการกรองที่เหมาะสม</p>
+      <small>ฝึกสวมให้กระชับและทดสอบการรั่ว</small>
+      <a href="PDF\a.pdf" target="_blank" class="ppe-link">ดูข้อมูลเพิ่มเติม</a>
+    </div>
+  </div>
+
+  <div class="ppe-card">
+    <div class="thumb">
+      <img src="image/PPE2.jpg" alt="ถุงมือนิรภัย">
+      <div class="caption">
+        <h4>ถุงมือนิรภัย</h4>
+        <p>ป้องกันการบาดและการสัมผัสสารเคมี</p>
+      </div>
+    </div>
+    <div class="meta">
+      <p>เลือกวัสดุที่เหมาะสมกับงาน เช่น ยางไนไตรล์ หนัง หรือถุงมือกันบาด</p>
+      <small>เปลี่ยนเมื่อชำรุดหรือสกปรก</small>
+      <a href="PDF\b.pdf" target="_blank" class="ppe-link">ดูข้อมูลเพิ่มเติม</a>
+    </div>
+  </div>
+
+  <div class="ppe-card">
+    <div class="thumb">
+      <img src="image/PPE3.jpg" alt="รองเท้านิรภัย">
+      <div class="caption">
+        <h4>รองเท้านิรภัย</h4>
+        <p>ป้องกันเท้าจากการกระแทก ก้าวลื่น และของมีคม</p>
+      </div>
+    </div>
+    <div class="meta">
+      <p>เลือกตามมาตรฐานและสภาพพื้นงาน</p>
+      <small>ตรวจสภาพพื้นรองเท้าและหัวรองเท้า</small>
+      <a href="PDF\c.pdf" target="_blank" class="ppe-link">ดูข้อมูลเพิ่มเติม</a>
+    </div>
+  </div>
+
+  <div class="ppe-card">
+    <div class="thumb">
+      <img src="image/PPE4.jpg" alt="เสื้อสะท้อนแสง">
+      <div class="caption">
+        <h4>เสื้อสะท้อนแสง / High-Vis</h4>
+        <p>ช่วยให้มองเห็นได้ชัดในบริเวณที่มีการจราจรหรือที่แสงน้อย</p>
+      </div>
+    </div>
+    <div class="meta">
+      <p>เพิ่มความปลอดภัยเมื่อทำงานใกล้ยานพาหนะ</p>
+      <small>ใช้ร่วมกับอุปกรณ์อื่นเมื่อต้องการการป้องกันสูง</small>
+      <a href="PDF\d.pdf" target="_blank" class="ppe-link">ดูข้อมูลเพิ่มเติม</a>
+    </div>
+
+    </div>
+    <div class="ppe-card">
+    <div class="thumb">
+      <img src="image\PPE8.jpg" alt="อุปกรณ์ป้องกันสการตกจากที่สูง">
+      <div class="caption">
+        <h4>อุปกรณ์ป้องกันสการตกจากที่สูง</h4>
+        <p> เพื่อป้องกันอันตรายจากการตกจากที่สูงได้อย่างปลอดภัย</p>
+      </div>
+    </div>
+    <div class="meta">
+      <p>เป็นอุปกรณ์ป้องกันการตกส่วนบุคคล ที่เหมาะสมที่สุดหากงานนั้นมีความเสี่ยงจากการตกจากที่สูง</p>
+      <small>เพื่อป้องกันอันตรายจากการตกจากที่สูงได้อย่างปลอดภัย</small>
+      <a href="PDF\e.pdf" target="_blank" class="ppe-link">ดูข้อมูลเพิ่มเติม</a>
+    </div>
+
+  </div>
+
+  
+
+</aside>
+
+</main>
+
+<!-- modal popup -->
+<div id="ppeModal" class="ppe-modal" aria-hidden="true" role="dialog" aria-modal="true">
+  <div class="ppe-modal-backdrop" data-close></div>
+  <div class="ppe-modal-panel" role="document" aria-labelledby="ppeModalTitle">
+    <button class="ppe-modal-close" data-close aria-label="ปิด">&times;</button>
+    <div class="ppe-modal-body">
+      <div class="ppe-modal-image"><img src="" alt=""></div>
+      <div class="ppe-modal-info">
+        <h3 id="ppeModalTitle"></h3>
+        <p id="ppeModalDesc"></p>
+        <p id="ppeModalMeta" class="muted"></p>
+        <small id="ppeModalNote"></small>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const modal = document.getElementById('ppeModal');
+  if(!modal) return;
+  const panel = modal.querySelector('.ppe-modal-panel');
+  const title = document.getElementById('ppeModalTitle');
+  const desc = document.getElementById('ppeModalDesc');
+  const meta = document.getElementById('ppeModalMeta');
+  const note = document.getElementById('ppeModalNote');
+  const imgEl = modal.querySelector('.ppe-modal-image img');
+
+  // open function
+  function openCard(card){
+    const pic = card.querySelector('.thumb img');
+    const h4 = card.querySelector('.thumb .caption h4');
+    const pcap = card.querySelector('.thumb .caption p');
+    const pmeta = card.querySelector('.meta > p');
+    const psmall = card.querySelector('.meta small');
+
+    imgEl.src = pic ? pic.src : '';
+    imgEl.alt = pic ? (pic.alt || '') : '';
+    title.textContent = h4 ? h4.textContent.trim() : '';
+    desc.textContent = pcap ? pcap.textContent.trim() : '';
+    meta.textContent = pmeta ? pmeta.textContent.trim() : '';
+    note.textContent = psmall ? psmall.textContent.trim() : '';
+
+    modal.setAttribute('aria-hidden','false');
+    // focus for accessibility
+    panel.focus?.();
+    // lock scroll
+    document.documentElement.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    modal.setAttribute('aria-hidden','true');
+    document.documentElement.style.overflow = '';
+  }
+
+  // attach click on cards
+  document.querySelectorAll('.ppe-card').forEach(card=>{
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', function(e){
+      // avoid opening when user clicks actionable elements inside meta (if any)
+      if (e.target.closest('a') || e.target.closest('button')) return;
+      openCard(card);
+    });
+  });
+
+  // close handlers
+  modal.addEventListener('click', (e)=>{
+    if(e.target.matches('[data-close]') || !e.target.closest('.ppe-modal-panel')) closeModal();
+  });
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape') closeModal();
+  });
+})();
+
+</script>
+
+ </div>
+
+    <a class="back" href="B5.html">← Black</a>
+</div>
+
+</body>
+</html>

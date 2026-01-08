@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>แผนกโครงข่าย – หน้าที่ความรับผิดชอบ</title>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+    body {
+        margin: 0;
+        font-family: 'Inter', Arial, sans-serif;
+        display: flex;
+        height: 100vh;
+        background: #fff8d6;
+    }
+
+    /* Sidebar */
+    .sidebar {
+        width: 270px;
+        background: #f5c400;
+        color: #000;
+        padding: 20px 0;
+        overflow-y: auto;
+        box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+        z-index: 10;
+    }
+
+    .logo-box {
+        text-align: center;
+        padding: 15px 0 10px;
+    }
+
+    .logo-box img {
+        width: 120px;
+        height: auto;
+    }
+
+    .menu-title {
+        padding: 12px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        background: #e0b200;
+        margin-bottom: 5px;
+        color: #000;
+    }
+
+    .menu-item, .submenu-item {
+        padding: 10px 22px;
+        cursor: pointer;
+        font-size: 15px;
+        transition: 0.2s;
+    }
+
+    .menu-item.active, .submenu-item.active {
+        background: #ffdd4d;
+        font-weight: 600;
+    }
+    
+    .menu-item:hover, .submenu-item:hover {
+        background: #ffdd4d;
+    }
+
+    .submenu {
+        padding-left: 35px;
+        font-size: 14px;
+        display: none;
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    /* --- Content Area Styling --- */
+    .content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        text-align: center;
+        padding: 50px 20px 50px 20px;
+        overflow-y: auto;
+        position: relative; /* needed for absolute centering of inner block */
+    }
+
+    /* Container ภายในสำหรับเนื้อหาหลัก เพื่อจำกัดความกว้างและจัดชิดซ้าย */
+    .content-container {
+        width: 100%;
+        max-width: 900px;
+        text-align: center;
+    }
+
+    /* Center the main content block inside .content (center-center) */
+    .center-area {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        max-width: 900px;
+    }
+
+    /* Center the block on the viewport (screen-center) */
+    .screen-center {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 999;
+        width: 90%;
+        max-width: 900px;
+        background: rgba(255,255,255,0.0);
+        padding: 0;
+    }
+
+    .screen-center .link-btn {
+        display: block;
+        margin: 10px auto;
+    }
+
+    .content h1 {
+        font-size: 36px;
+        font-weight: 600;
+        margin-bottom: 35px;
+        text-align: center;
+    }
+
+    /* **การแก้ไขหลัก: ทำให้ H2 ชิดซ้ายใน Content Container** */
+    .content-container h2 {
+        font-size: 26px;
+        font-weight: 600;
+        margin-top: 35px;
+        margin-bottom: 15px;
+        color: #8c7300;
+        border-bottom: 2px solid #ffdd4d;
+        padding-bottom: 5px;
+        text-align: left;
+    /* การจัด 3 หัวข้อหลัก (cards) */
+    .grid-sections {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-top: 22px;
+    }
+    .section-card {
+        background: #fff;
+        padding: 16px;
+        border-radius: 8px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+        text-align: center;
+    }
+    .section-card h3 { margin: 0 0 8px 0; color: #8c7300; }
+    .section-card p { margin: 0 0 12px 0; color: #333; }
+
+    @media (max-width: 880px) {
+        .grid-sections { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 520px) {
+        .grid-sections { grid-template-columns: 1fr; }
+    }
+    }
+
+    .content-container p {
+        font-size: 18px;
+        margin-bottom: 20px;
+        line-height: 1.6;
+        text-align: center;
+    }
+
+    /* *** แก้ไขตรงนี้: ลบเครื่องหมายสี่เหลี่ยม (list-style: square) ออก *** */
+    .content-container ul {
+        margin: 0 0 25px 0;
+        padding-left: 0; /* ลบ padding-left เพื่อให้รายการเริ่มต้นจากซ้ายสุด */
+        line-height: 1.8;
+        list-style: none; /* ลบเครื่องหมายหัวข้อย่อย */
+        font-size: 17px;
+    }
+
+    /* เพิ่มการจัดรูปแบบของ list item เพื่อให้มีช่องว่างด้านซ้ายเล็กน้อย (ถ้าจำเป็น) */
+    .content-container ul li {
+        padding-left: 15px; /* เพิ่ม padding เล็กน้อยเพื่อให้ไม่ชิดซ้ายเกินไป */
+        position: relative; /* เพื่อให้สามารถเพิ่มสัญลักษณ์นำหน้าด้วย CSS ได้ในอนาคต */
+    }
+
+    .content-container ul li strong {
+        color: #000;
+    }
+
+    .content-container img {
+        display: block;
+        max-width: 400px;
+        width: 80%;
+        height: auto;
+        margin: 30px auto 10px auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    /* ปุ่มลิงก์ภายนอกแบบปุ่ม */
+    .link-btn {
+        display: inline-block;
+        background: #b1c6b5;
+        color: #000;
+        padding: 8px 14px;
+        border-radius: 6px;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid #e0b200;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    }
+    .link-btn:hover { background: #ffd84d; }
+
+    @media (max-width: 520px) {
+        .link-btn { display: block; width: 100%; text-align: center; }
+    }
+
+.btn-group{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;   /* 👈 ปรับความห่างตรงนี้ */
+    margin-top: 30px;
+}
+
+
+
+
+</style>
+</style>
+<style>
+@media (max-width:1024px){.sidebar{width:220px}.content{padding:30px 16px}}
+@media (max-width:768px){body{flex-direction:column}.sidebar{width:100%;padding:10px}.card{width:calc(50% - 16px)}.card img{width:100%}}
+@media (max-width:420px){.card{width:100%}}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo-box">
+        <img src="image/logo.png" alt="Logo ศูนย์วิศวกรรมโครงข่าย">
+    </div>
+
+    <div class="menu-title">ศูนย์วิศวกรรมโครงข่าย</div>
+    <div id="menuContainer"></div>
+</div>
+
+<div class="content">
+    
+    <div class="content-container">
+
+    <h1>ติดตามงาน</h1>
+    <h2>รายละเอียด</h2>
+
+    <div class="btn-group">
+        <a class="link-btn" href="https://docs.google.com/spreadsheets/d/1h-VsIiH7J1XWrAhVgPIHgznlZ9QwyNUa/edit?gid=613028693#gid=613028693" target="_blank">งานจัดระเบียบสายสื่อสาร</a>
+
+        <a class="link-btn" href="https://docs.google.com/spreadsheets/d/1ptS9FsNYqJdCC2ciNUAGp1z59Z3rySPy/edit?gid=1050438138#gid=1050438138" target="_blank">งานซ่อมแซมบำรุงรักษาข่ายสาย</a>
+
+        <a class="link-btn" href="https://tams.pea.co.th/#/login?_k=xso4sk" target="_blank">งานสินทรัพย์</a>
+
+        <a class="link-btn" href="https://docs.google.com/spreadsheets/d/1R4RJmjz2qyonub6FliShfe0X2vP72cAM/edit?gid=443829131#gid=443829131" target="_blank">งานพัสดุ</a>
+
+        <a class="link-btn" href="Expansion.html" target="_blank">งานขยายข่ายสาย</a>
+
+        <a class="link-btn" href="https://tams.pea.co.th/#/login?_k=xso4sk" target="_blank">งานแผนและงบประมาณ</a>
+    </div>
+
+</div>
+
+
+</div>
+
+<script>
+const menuData = {
+  "sidebarMenu": [
+    { "title": "หน้าแรก", "path": "\index.html" },
+{
+      "title": "โครงสร้างแผนก",
+      "children": [
+        { "title": "อัตรากำลัง", "path": "A1.html" },
+        { "title": "หน้าที่บุคลากร", "path": "A2.html" },
+        { "title": "ทำเนียบบุคลากร", "path": "A3.html" }
+      ]
+    },
+     {
+      "title": "งานที่รับผิดชอบ",
+      "children": [
+        { "title": "โครงข่าย", "path": "B1.html" },
+        { "title": "ใบสั่งงาน", "path": "B2.html" },
+        { "title": "ตารางบำรุงรักษา", "path": "B3.html" },
+        { "title": "Outside plan map (OPM) ", "path": "B4.html" },
+        { "title": "ความปลอดภัย อาชีวอนามัย", "path": "\B5.html" }
+      ]
+    },
+     {
+      "title": "แจ้งเหตุเสีย/1888",
+      "children": [
+        { "title": "Scoms", "path": "/ticket/new" },
+        { "title": "Umbo", "path": "/ticket/status" }
+      ]
+    },
+   
+    { "title": "ติดต่อ", "path": "E1.html" }
+]
+};
+
+const container = document.getElementById("menuContainer");
+const currentPath = window.location.pathname.replace(/\/$/, ""); // Path ปัจจุบัน เช่น /about/duty
+
+menuData.sidebarMenu.forEach(menu => {
+    const item = document.createElement("div");
+    item.className = "menu-item";
+    
+    // ตรวจสอบเมนูหลัก
+    if (menu.path && currentPath.endsWith(menu.path.replace(/\./g, ''))) {
+        item.classList.add('active');
+    }
+
+    if (!menu.children) {
+        item.innerHTML = `<a href="${menu.path}">${menu.title}</a>`;
+        container.appendChild(item);
+        return;
+    }
+
+    item.textContent = menu.title;
+
+    const submenu = document.createElement("div");
+    submenu.className = "submenu";
+    let hasActiveSubmenu = false;
+
+    menu.children.forEach(sub => {
+        const subItem = document.createElement("div");
+        subItem.className = "submenu-item";
+        
+        // ตรวจสอบเมนูย่อย
+        if (currentPath.endsWith(sub.path)) {
+            subItem.classList.add('active');
+            hasActiveSubmenu = true;
+        }
+        
+        subItem.innerHTML = `<a href="${sub.path}">• ${sub.title}</a>`;
+        submenu.appendChild(subItem);
+    });
+    
+    // ถ้ามีเมนูย่อยที่ Active ให้เปิด Submenu ไว้
+    if (hasActiveSubmenu) {
+        submenu.style.display = "block";
+        item.classList.add('active'); // เน้นเมนูหลักด้วย
+    }
+
+    item.onclick = () => {
+        submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+    };
+
+    container.appendChild(item);
+    container.appendChild(submenu);
+});
+</script>
+
+</body>
+</html>
